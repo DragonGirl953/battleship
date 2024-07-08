@@ -57,9 +57,6 @@ def user_choice(battleship_location):
                     individual_coordinates[1] -= 1
                     print(individual_coordinates)
                     print(coordinates_list)
-                    if coordinates_list[individual_coordinates[0]][individual_coordinates[1]] != "":
-                        print("Coordinate has already been used.  Try again.")
-                        continue
                 else:
                     print("Coordinates out of bounds.  Try again.")
                 

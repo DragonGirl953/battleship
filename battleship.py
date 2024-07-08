@@ -56,6 +56,7 @@ def user_choice(battleship_location):
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
                     print(individual_coordinates)
+                    proper_coordinates = True
                     print(coordinates_list)
                 else:
                     print("Coordinates out of bounds.  Try again.")

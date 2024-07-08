@@ -17,7 +17,7 @@ def print_board(row):
     print("  ----------------")
     print(f"1 | {row[0][0]} | {row[0][1]} | {row[0][2]} | {row[0][3]} | {row[0][4]} |")
     print("  ----------------")
-    print(f"2 | {row[1][0]} | {row[1][1]} | {row[2][2]} | {row[3][3]} | {row[4][4]} |")
+    print(f"2 | {row[1][0]} | {row[1][1]} | {row[1][2]} | {row[1][3]} | {row[1][4]} |")
     print("  ----------------")
     print(f"3 | {row[2][0]} | {row[2][1]} | {row[2][2]} | {row[2][3]} | {row[2][4]} |")
     print("  ----------------")
@@ -35,6 +35,8 @@ def battleship_location():
     win_coordinates.append(col)
     win_coordinates.append(row)
     return win_coordinates
+
+
 #### user puts in a location and it updates and prints the board
 def user_choice(battleship_location):
     coordinates_list = board()

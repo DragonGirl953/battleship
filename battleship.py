@@ -12,17 +12,18 @@ def board ():
     return row
 
 def print_board(row):
-    print("-------------")
-    print(f"| {row[0][0]} | {row[0][1]} | {row[0][2]} | {row[0][3]} | {row[0][4]}")
-    print("-------------")
-    print(f"| {row[1][0]} | {row[1][1]} | {row[2][2]} | {row[3][3]} | {row[4][4]}")
-    print("-------------")
-    print(f"| {row[2][0]} | {row[2][1]} | {row[2][2]} | {row[2][3]} | {row[2][4]}")
-    print("-------------")
-    print(f"| {row[3][0]} | {row[3][1]} | {row[3][2]} | {row[3][3]} | {row[3][4]}")
-    print("-------------")
-    print(f"| {row[4][0]} | {row[4][1]} | {row[4][2]} | {row[4][3]} | {row[4][4]}")
-    print("-------------")
+    print("   A  B  C  D  E ")
+    print("  ----------------")
+    print(f"1 | {row[0][0]} | {row[0][1]} | {row[0][2]} | {row[0][3]} | {row[0][4]} |")
+    print("  ----------------")
+    print(f"2 | {row[1][0]} | {row[1][1]} | {row[2][2]} | {row[3][3]} | {row[4][4]} |")
+    print("  ----------------")
+    print(f"3 | {row[2][0]} | {row[2][1]} | {row[2][2]} | {row[2][3]} | {row[2][4]} |")
+    print("  ----------------")
+    print(f"4 | {row[3][0]} | {row[3][1]} | {row[3][2]} | {row[3][3]} | {row[3][4]} |")
+    print("  ----------------")
+    print(f"5 | {row[4][0]} | {row[4][1]} | {row[4][2]} | {row[4][3]} | {row[4][4]} |")
+    print("  ----------------")
 
 update_board = board()
 print_board(update_board)
@@ -56,7 +57,9 @@ def user_choice(battleship_location):
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
                     print(individual_coordinates)
-                    print(coordinates_list)
+                    update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                    print_board(update_board)
+                    proper_coordinates = True
                 else:
                     print("Coordinates out of bounds.  Try again.")
                 
@@ -66,3 +69,5 @@ def user_choice(battleship_location):
         except:
             continue     
     return individual_coordinates
+
+user_choice(update_board)

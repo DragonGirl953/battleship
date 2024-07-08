@@ -1,4 +1,5 @@
 #### single player battle ship
+import random
 
 def board ():
     col1 = [""] * 5
@@ -26,6 +27,14 @@ def print_board(row):
 
 update_board = board()
 print_board(update_board)
+
+def battleship_location():
+    win_coordinates = []
+    col = random.randint(0,5)
+    row = random.randint(0,5)
+    win_coordinates.append(col)
+    win_coordinates.append(row)
+    return win_coordinates
 
 def user_choice(battleship_location):
     coordinates_list = board()

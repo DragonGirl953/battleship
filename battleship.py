@@ -26,8 +26,7 @@ def print_board(row):
     print(f"5 | {row[4][0]} | {row[4][1]} | {row[4][2]} | {row[4][3]} | {row[4][4]} |")
     print("  ----------------")
 
-update_board = board()
-print_board(update_board)
+
 
 def battleship_location():
     win_coordinates = []
@@ -36,7 +35,7 @@ def battleship_location():
     win_coordinates.append(col)
     win_coordinates.append(row)
     return win_coordinates
-
+#### user puts in a location and it updates and prints the board
 def user_choice(battleship_location):
     coordinates_list = board()
     proper_coordinates = False
@@ -65,10 +64,12 @@ def user_choice(battleship_location):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
-                    print(individual_coordinates)
-                    update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                    print_board(update_board)
-                    proper_coordinates = True
+                    if update_board[individual_coordinates[1]][individual_coordinates[0]] == "":
+                        update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                        print_board(update_board)
+                    else:
+                        print("Already choosen input another coordinate! ")
+                    
                 else:
                     print("Coordinates out of bounds.  Try again.")
                 
@@ -79,4 +80,8 @@ def user_choice(battleship_location):
             continue     
     return individual_coordinates
 
+
+#### main
+update_board = board()
+print_board(update_board)
 user_choice(update_board)

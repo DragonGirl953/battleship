@@ -50,6 +50,7 @@ def battleship_location():
     if ship_place == 1:
         out_of_bounds= True
         while out_of_bounds:
+            win_coordinates.clear()
             direction_choice = random.randint(0,1)
             col = random.randint(0,4)
             row = random.randint(0,4)
@@ -167,7 +168,7 @@ def battleship_location():
 
 #### user puts in a location and it updates and prints the board
 def user_choice(update_board, battleship_location):
-    coordinates_list = board()
+    limit = 10
     win_coordinates = battleship_location()
     proper_coordinates = False
     win_counter = 0
@@ -209,7 +210,14 @@ def user_choice(update_board, battleship_location):
                         print_board(update_board)
                     
                     else:
-                        print("Already choosen input another coordinate! ")
+                        print("Already chosen input another coordinate! ")
+                        
+                    if len(user_guesses) >= limit:
+                        print("You are out of turns.")
+                        break
+                    else:
+                        turns_left = limit - len(user_guesses)
+                        print(f"{turns_left} guesses left.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")

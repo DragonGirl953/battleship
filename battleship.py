@@ -189,6 +189,7 @@ def user_choice(update_board):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         print_board(update_board)
+                        win_counter += 1
                         if win_counter == 3:
                             print("You win!")
                             break

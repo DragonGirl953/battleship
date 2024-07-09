@@ -1,6 +1,8 @@
 #### single player battle ship
 import random
 
+user_guesses = []
+
 def board (grid_size):
     print(grid_size)
     grid = [[col for col in range(grid_size)] for row in range(grid_size)]

@@ -2,10 +2,8 @@
 import random
 
 def board (grid_size):
-    print(grid_size)
-    grid = [[col for col in range(grid_size)] for row in range(grid_size)]
+    grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
     
-    print(grid)
     return grid
 
 
@@ -22,6 +20,7 @@ def battleship_location():
     single_coordinates = []
     while not placement:
         try:
+            print('\n')
             ship_place = int(input("Would you like to place ships randomly or manually? 1 for random, 2 for manually: "))
             if ship_place == 1:
                 print("You selected random.")
@@ -38,8 +37,8 @@ def battleship_location():
         while out_of_bounds:
             win_coordinates.clear()
             direction_choice = random.randint(0,1)
-            col = random.randint(0,4)
-            row = random.randint(0,4)
+            col = random.randint(0,grid_size)
+            row = random.randint(0,grid_size)
             single_coordinates.append(col)
             single_coordinates.append(row)
             win_coordinates.append(single_coordinates.copy())
@@ -107,7 +106,7 @@ def battleship_location():
                         win_coordinates.append(single_coordinates.copy())
                         single_coordinates.clear()
                 except:
-                    print("Invalid coordinates.  Try again.")
+                    print("Invalid coordinates. Try again.")
                     continue
                 
                 try:
@@ -154,8 +153,6 @@ def battleship_location():
 
 #### user puts in a location and it updates and prints the board
 def user_choice(update_board):
-    coordinates_list = board(grid_size)
-def user_choice(update_board):
     limit = 10
     win_coordinates = battleship_location()
     proper_coordinates = False
@@ -187,31 +184,29 @@ def user_choice(update_board):
                     individual_coordinates[1] -= 1
                     if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
-                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                         if win_counter == 3:
                             print("You win!")
                             break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                     
                     else:
                         print("Already chosen input another coordinate! ")
                         
-                    if len(user_guesses) >= limit:
+                    if len(board) >= limit:
                         print("You are out of turns.")
                         break
                     else:
-                        turns_left = limit - len(user_guesses)
+                        turns_left = limit - len(board)
                         print(f"{turns_left} guesses left.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")
                 
             except:
-                print("Invalid coordinates.  Try again.")       
+                print("Invalid coordinates.  ffsfdfsdTry again.")       
 
         except:
             continue     

@@ -30,11 +30,57 @@ def print_board(row):
 
 #### designates a location on the grid
 def battleship_location():
-    win_coordinates = []
-    col = random.randint(0,4)
-    row = random.randint(0,4)
-    win_coordinates.append(col)
-    win_coordinates.append(row)
+    placement = False
+    while not placement:
+        try:
+            ship_place = int(input("Would you like to place ships randomly or manually? 1 for random, 2 for manually: "))
+            if ship_place == 1:
+                print("You selected random.")
+                placement = True
+            elif ship_place == 2:
+                print("You selected manually.")
+                placement = True
+            else:
+                print("Invalid input.")
+        except:
+            print("Invalid input.")
+    if ship_place == 1:
+        win_coordinates = []
+        col = random.randint(0,4)
+        row = random.randint(0,4)
+        win_coordinates.append(col)
+        win_coordinates.append(row)
+
+    elif ship_place == 2:
+        valid_coordinates = False
+        while valid_coordinates == False:
+            manual = input("Choose a location for the ship (Enter the coordinates in number, letter format eg. A,1): ")
+            try:
+                manual = manual.strip()
+                win_coordinates = manual.split(",")
+                if win_coordinates[0].lower() == "a":
+                    win_coordinates[0] = 0
+                elif win_coordinates[0].lower() == "b":
+                    win_coordinates[0] = 1
+                elif win_coordinates[0].lower() == "c":
+                    win_coordinates[0] = 2
+                elif win_coordinates[0].lower() == "d":
+                    win_coordinates[0] = 3
+                elif win_coordinates[0].lower() == "e":
+                    win_coordinates[0] = 4
+                else:
+                    print("Invalid coordinates.")
+                    continue
+                try:
+                    win_coordinates[1] = int(win_coordinates[1])
+                    if win_coordinates[1] <= 5 and win_coordinates[1] >= 1:
+                        win_coordinates[1] -= 1
+                        valid_coordinates = True
+                except:
+                    print("Invalid coordinates.  Try again.")       
+
+            except:
+                continue  
     
     return win_coordinates
 

@@ -39,7 +39,7 @@ def battleship_location():
 
 
 #### user puts in a location and it updates and prints the board
-def user_choice(update_board, battleship_location):
+def user_choice(update_board):
     win_coordinates = battleship_location()
     proper_coordinates = False
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -93,4 +93,4 @@ def user_choice(update_board, battleship_location):
 #### main
 update_board = board()
 print_board(update_board)
-user_choice(update_board, battleship_location)
+user_choice(update_board)

@@ -45,11 +45,49 @@ def battleship_location():
         except:
             print("Invalid input.")
     if ship_place == 1:
-        win_coordinates = []
-        col = random.randint(0,4)
-        row = random.randint(0,4)
-        win_coordinates.append(col)
-        win_coordinates.append(row)
+        out_of_bounds= True
+        while out_of_bounds:
+            win_coordinates = []
+            single_coordinates = []
+            direction_choice = random.randint(0,1)
+            col = random.randint(0,4)
+            row = random.randint(0,4)
+            single_coordinates.append(col)
+            single_coordinates.append(row)
+            win_coordinates.append(single_coordinates.copy())
+            single_coordinates.clear()
+
+            if direction_choice == 0:
+                if col-1 < 0 or col+1 > 4:
+                    continue
+                else:
+                    single_coordinates.append(col-1)
+                    single_coordinates.append(row)
+                    win_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()
+                    single_coordinates.append(col+1)
+                    single_coordinates.append(row)
+                    win_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()
+                    out_of_bounds = False
+                    print(win_coordinates)
+
+                
+            elif direction_choice == 1:
+                if row-1 < 0 or row+1 > 4:
+                    continue
+                else:
+                    single_coordinates.append(col)
+                    single_coordinates.append(row-1)
+                    win_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()
+                    single_coordinates.append(col)
+                    single_coordinates.append(row+1)
+                    win_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()  
+                    out_of_bounds = False
+                    print(win_coordinates)
+
 
     elif ship_place == 2:
         valid_coordinates = False
@@ -115,7 +153,7 @@ def user_choice(update_board, battleship_location):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
-                    if individual_coordinates == win_coordinates:
+                    if individual_coordinates in win_coordinates:
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         print_board(update_board)
                         print("You win!")

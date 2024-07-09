@@ -30,16 +30,19 @@ def print_board(row):
 
 def battleship_location():
     win_coordinates = []
-    col = random.randint(0,5)
-    row = random.randint(0,5)
+    col = random.randint(0,4)
+    row = random.randint(0,4)
     win_coordinates.append(col)
     win_coordinates.append(row)
+    print(win_coordinates)
+    
     return win_coordinates
 
 
 #### user puts in a location and it updates and prints the board
-def user_choice(battleship_location):
+def user_choice(update_board, battleship_location):
     coordinates_list = board()
+    win_coordinates = battleship_location()
     proper_coordinates = False
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     while proper_coordinates == False:
@@ -66,9 +69,15 @@ def user_choice(battleship_location):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
-                    if update_board[individual_coordinates[1]][individual_coordinates[0]] == "":
+                    if individual_coordinates == win_coordinates:
+                        update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                        print_board(update_board)
+                        print("You win!")
+                        break
+                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         print_board(update_board)
+                    
                     else:
                         print("Already choosen input another coordinate! ")
                     
@@ -86,4 +95,4 @@ def user_choice(battleship_location):
 #### main
 update_board = board()
 print_board(update_board)
-user_choice(update_board)
+user_choice(update_board, battleship_location)

@@ -1,6 +1,8 @@
 #### single player battle ship
 import random
 
+user_guesses = []
+
 def board (grid_size):
     grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
     
@@ -185,6 +187,7 @@ def user_choice(update_board):
                     if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         print_board(update_board)
+                        win_counter += 1
                         if win_counter == 3:
                             print("You win!")
                             break

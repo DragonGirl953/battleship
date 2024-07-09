@@ -1,6 +1,7 @@
 #### single player battle ship
 import random
 
+user_guesses = []
 def board ():
     col1 = ["-"] * 5
     col2 = ["-"] * 5
@@ -195,14 +196,16 @@ def user_choice(update_board, battleship_location):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
                     individual_coordinates[1] -= 1
-                    if individual_coordinates in win_coordinates:
+                    if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                         if win_counter == 3:
                             print("You win!")
                             break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                     
                     else:

@@ -154,8 +154,6 @@ def battleship_location():
 
 #### user puts in a location and it updates and prints the board
 def user_choice(update_board):
-    coordinates_list = board(grid_size)
-def user_choice(update_board):
     limit = 10
     win_coordinates = battleship_location()
     proper_coordinates = False

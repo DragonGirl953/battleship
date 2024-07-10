@@ -138,41 +138,41 @@ def user_battleship_location():
 
                 #####
                 
-                try:
-                    direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
-                    if direction == 1:
-                        if row-1 < 0 or row+1 > grid_size - 1:
-                            print("Coordinates out of bounds.  Try again.")
-                            continue
-                        else:
-                            single_coordinates.append(col)
-                            single_coordinates.append(row-1)
-                            win_coordinates.append(single_coordinates.copy())
-                            single_coordinates.clear()
-                            single_coordinates.append(col)
-                            single_coordinates.append(row+1)
-                            win_coordinates.append(single_coordinates.copy())
-                            single_coordinates.clear()  
-                            valid_coordinates = True
-                            print(win_coordinates)
-                    elif direction == 2:
-                        if col-1 < 0 or col+1 > grid_size - 1:
-                            print("Coordinates out of bounds.  Try again.")
-                            continue
-                        else:
-                            single_coordinates.append(col-1)
-                            single_coordinates.append(row)
-                            win_coordinates.append(single_coordinates.copy())
-                            single_coordinates.clear()
-                            single_coordinates.append(col+1)
-                            single_coordinates.append(row)
-                            win_coordinates.append(single_coordinates.copy())
-                            single_coordinates.clear()
-                            valid_coordinates = True
-                            print(win_coordinates)
-                except:
-                    print("Invalid input.")
-                    continue
+                # try:
+                #     direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
+                #     if direction == 1:
+                #         if row-1 < 0 or row+1 > grid_size - 1:
+                #             print("Coordinates out of bounds.  Try again.")
+                #             continue
+                #         else:
+                #             single_coordinates.append(col)
+                #             single_coordinates.append(row-1)
+                #             win_coordinates.append(single_coordinates.copy())
+                #             single_coordinates.clear()
+                #             single_coordinates.append(col)
+                #             single_coordinates.append(row+1)
+                #             win_coordinates.append(single_coordinates.copy())
+                #             single_coordinates.clear()  
+                #             valid_coordinates = True
+                #             print(win_coordinates)
+                #     elif direction == 2:
+                #         if col-1 < 0 or col+1 > grid_size - 1:
+                #             print("Coordinates out of bounds.  Try again.")
+                #             continue
+                #         else:
+                #             single_coordinates.append(col-1)
+                #             single_coordinates.append(row)
+                #             win_coordinates.append(single_coordinates.copy())
+                #             single_coordinates.clear()
+                #             single_coordinates.append(col+1)
+                #             single_coordinates.append(row)
+                #             win_coordinates.append(single_coordinates.copy())
+                #             single_coordinates.clear()
+                #             valid_coordinates = True
+                #             print(win_coordinates)
+                # except:
+                #     print("Invalid input.")
+                #     continue
                 
 
             except:
@@ -193,36 +193,36 @@ def computer_battleship_location():
         win_coordinates.append(single_coordinates.copy())
         single_coordinates.clear()
 
-        if direction_choice == 0:
-            if col-1 < 0 or col+1 > grid_size - 1:
-                continue
-            else:
-                single_coordinates.append(col-1)
-                single_coordinates.append(row)
-                win_coordinates.append(single_coordinates.copy())
-                single_coordinates.clear()
-                single_coordinates.append(col+1)
-                single_coordinates.append(row)
-                win_coordinates.append(single_coordinates.copy())
-                single_coordinates.clear()
-                out_of_bounds = False
-                print(win_coordinates)
+        # if direction_choice == 0:
+        #     if col-1 < 0 or col+1 > grid_size - 1:
+        #         continue
+        #     else:
+        #         single_coordinates.append(col-1)
+        #         single_coordinates.append(row)
+        #         win_coordinates.append(single_coordinates.copy())
+        #         single_coordinates.clear()
+        #         single_coordinates.append(col+1)
+        #         single_coordinates.append(row)
+        #         win_coordinates.append(single_coordinates.copy())
+        #         single_coordinates.clear()
+        #         out_of_bounds = False
+        #         print(win_coordinates)
 
             
-        elif direction_choice == 1:
-            if row-1 < 0 or row+1 > grid_size - 1:
-                continue
-            else:
-                single_coordinates.append(col)
-                single_coordinates.append(row-1)
-                win_coordinates.append(single_coordinates.copy())
-                single_coordinates.clear()
-                single_coordinates.append(col)
-                single_coordinates.append(row+1)
-                win_coordinates.append(single_coordinates.copy())
-                single_coordinates.clear()  
-                out_of_bounds = False
-                print(win_coordinates)
+        # elif direction_choice == 1:
+        #     if row-1 < 0 or row+1 > grid_size - 1:
+        #         continue
+        #     else:
+        #         single_coordinates.append(col)
+        #         single_coordinates.append(row-1)
+        #         win_coordinates.append(single_coordinates.copy())
+        #         single_coordinates.clear()
+        #         single_coordinates.append(col)
+        #         single_coordinates.append(row+1)
+        #         win_coordinates.append(single_coordinates.copy())
+        #         single_coordinates.clear()  
+        out_of_bounds = False
+        print(win_coordinates)
     return win_coordinates
 
 #### user puts in a location and it updates and prints the board
@@ -233,7 +233,6 @@ def user_choice(update_board):
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
 
-    limit = 10
     user_win_coordinates = user_battleship_location()
     computer_win_coordinates = computer_battleship_location()
     proper_coordinates = False

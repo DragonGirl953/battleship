@@ -272,6 +272,7 @@ def user_choice(update_board):
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
                         print_computerboard(update_board)
+                        nextTurn = input("Press enter for the computers turn: ")
                         break
                     
                     else:

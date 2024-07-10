@@ -186,6 +186,7 @@ def user_choice(update_board):
                     individual_coordinates[1] -= 1
                     if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                         win_counter += 1
                         if win_counter == 3:
@@ -193,16 +194,17 @@ def user_choice(update_board):
                             break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                        user_guesses.append(individual_coordinates)
                         print_board(update_board)
                     
                     else:
                         print("Already chosen input another coordinate! ")
                         
-                    if len(board) >= limit:
+                    if len(user_guesses) >= limit:
                         print("You are out of turns.")
                         break
                     else:
-                        turns_left = limit - len(board)
+                        turns_left = limit - len(user_guesses)
                         print(f"{turns_left} guesses left.")
                     
                 else:

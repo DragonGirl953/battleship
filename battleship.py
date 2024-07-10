@@ -234,6 +234,8 @@ def user_choice(update_board):
                     else:
                         turns_left = limit - len(user_guesses)
                         print(f"{turns_left} guesses left.")
+
+                    print(f"Your ship is located at {win_coordinates}.  Your ship has {3 - win_counter} spaces remaining.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")

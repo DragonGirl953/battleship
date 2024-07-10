@@ -55,7 +55,7 @@ def battleship_location():
             single_coordinates.clear()
 
             if direction_choice == 0:
-                if col-1 < 0 or col+1 > grid_size:
+                if col-1 < 0 or col+1 > grid_size - 1:
                     continue
                 else:
                     single_coordinates.append(col-1)
@@ -71,7 +71,7 @@ def battleship_location():
 
                 
             elif direction_choice == 1:
-                if row-1 < 0 or row+1 > grid_size:
+                if row-1 < 0 or row+1 > grid_size - 1:
                     continue
                 else:
                     single_coordinates.append(col)
@@ -120,7 +120,7 @@ def battleship_location():
                 try:
                     direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
                     if direction == 1:
-                        if row-1 < 0 or row+1 > grid_size:
+                        if row-1 < 0 or row+1 > grid_size - 1:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:
@@ -135,7 +135,7 @@ def battleship_location():
                             valid_coordinates = True
                             print(win_coordinates)
                     elif direction == 2:
-                        if col-1 < 0 or col+1 > grid_size:
+                        if col-1 < 0 or col+1 > grid_size - 1:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:

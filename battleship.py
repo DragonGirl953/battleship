@@ -94,10 +94,11 @@ def battleship_location():
             try:
                 manual = manual.strip()
                 single_coordinates = manual.split(",")
+                single_coordinates[0] = single_coordinates[0].lower()
                 if len(single_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
                 else: 
-                    if single_coordinates[0].lower() in letters_available and single_coordinates[1] in numbers_available:
+                    if single_coordinates[0] in letters_available and single_coordinates[1] in numbers_available:
                         single_coordinates[0] = letters_available.index(single_coordinates[0])
                     else:
                         print("Enter a column and row in letter , number format! ")
@@ -172,15 +173,16 @@ def user_choice(update_board):
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     while proper_coordinates == False:
-        coordinates = input("Enter the coordinates for your guess (must be a letter from A to E and a number from 1 to 5 in number, letter format eg. A,1): ")
+        coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
         
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
+            individual_coordinates[0] = individual_coordinates[0].lower()
             if len(individual_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
             else: 
-                if individual_coordinates[0].lower() in letters_available and individual_coordinates[1] in numbers_available:
+                if individual_coordinates[0] in letters_available and individual_coordinates[1] in numbers_available:
                         individual_coordinates[0] = letters_available.index(individual_coordinates[0])
                 else:
                         print("Enter a column and row in letter , number format! ")

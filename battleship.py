@@ -3,18 +3,37 @@ import random
 import os
 
 user_guesses = []
+computer_guesses = []
 
-def board (grid_size):
+#####computer board
+
+def computer_board (grid_size):
     grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
     
     return grid
 
 
-def print_board(grid):
+def print_computerboard(grid):
     for i in range( grid_size):
         print('\n')
         for j in range( grid_size ):
            print("|", grid[i][j], end=" |")
+
+
+##### user board
+def user_board (grid_size):
+    grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
+    
+    return grid
+
+
+def print_userboard(grid):
+    for i in range( grid_size):
+        print('\n')
+        for j in range( grid_size ):
+           print("|", grid[i][j], end=" |")
+
+
 
 #### designates a location on the grid
 def battleship_location():
@@ -195,7 +214,7 @@ def user_choice(update_board):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
-                        print_board(update_board)
+                        print_computerboard(update_board)
                         win_counter += 1
                         if win_counter == 3:
                             print("You win!")
@@ -204,7 +223,7 @@ def user_choice(update_board):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
-                        print_board(update_board)
+                        print_computerboard(update_board)
                     
                     else:
                         print("Already chosen input another coordinate! ")
@@ -238,6 +257,6 @@ while(repeat):
             print("Enter a number between 1-10! ")
     except:
         print("Invalid Syntax! ")
-    update_board = board(grid_size)
-print_board(update_board)
+    update_board = computer_board(grid_size)
+print_computerboard(update_board)
 user_choice(update_board)

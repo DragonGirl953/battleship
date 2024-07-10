@@ -36,7 +36,7 @@ def print_userboard(grid):
 
 
 #### designates a location on the grid
-def battleship_location():
+def user_battleship_location():
 
     
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
@@ -177,6 +177,51 @@ def battleship_location():
                 continue  
     return win_coordinates
 
+def computer_battleship_location():
+    win_coordinates = []
+    single_coordinates = []
+    out_of_bounds= True
+    while out_of_bounds:
+        win_coordinates.clear()
+        direction_choice = random.randint(0,1)
+        col = random.randint(0,grid_size - 1)
+        row = random.randint(0,grid_size - 1)
+        single_coordinates.append(col)
+        single_coordinates.append(row)
+        win_coordinates.append(single_coordinates.copy())
+        single_coordinates.clear()
+
+        if direction_choice == 0:
+            if col-1 < 0 or col+1 > grid_size - 1:
+                continue
+            else:
+                single_coordinates.append(col-1)
+                single_coordinates.append(row)
+                win_coordinates.append(single_coordinates.copy())
+                single_coordinates.clear()
+                single_coordinates.append(col+1)
+                single_coordinates.append(row)
+                win_coordinates.append(single_coordinates.copy())
+                single_coordinates.clear()
+                out_of_bounds = False
+                print(win_coordinates)
+
+            
+        elif direction_choice == 1:
+            if row-1 < 0 or row+1 > grid_size - 1:
+                continue
+            else:
+                single_coordinates.append(col)
+                single_coordinates.append(row-1)
+                win_coordinates.append(single_coordinates.copy())
+                single_coordinates.clear()
+                single_coordinates.append(col)
+                single_coordinates.append(row+1)
+                win_coordinates.append(single_coordinates.copy())
+                single_coordinates.clear()  
+                out_of_bounds = False
+                print(win_coordinates)
+    return win_coordinates
 
 #### user puts in a location and it updates and prints the board
 def user_choice(update_board):
@@ -187,7 +232,8 @@ def user_choice(update_board):
     numbers_available = numbers[ 0 : grid_size]
 
     limit = 10
-    win_coordinates = battleship_location()
+    user_win_coordinates = user_battleship_location()
+    computer_win_coordinates = computer_battleship_location()
     proper_coordinates = False
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -210,7 +256,7 @@ def user_choice(update_board):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
-                    if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
+                    if individual_coordinates in computer_win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
@@ -228,14 +274,8 @@ def user_choice(update_board):
                     else:
                         print("Already chosen input another coordinate! ")
                         
-                    if len(user_guesses) >= limit:
-                        print("You are out of turns.")
-                        break
-                    else:
-                        turns_left = limit - len(user_guesses)
-                        print(f"{turns_left} guesses left.")
 
-                    print(f"Your ship is located at {win_coordinates}.  Your ship has {3 - win_counter} spaces remaining.")
+                    print(f"Your ship is located at {user_win_coordinates}.  Your ship has {3 - win_counter} spaces remaining.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")

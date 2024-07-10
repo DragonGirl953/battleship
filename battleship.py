@@ -234,7 +234,6 @@ def user_choice(update_board):
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
 
-    limit = 10
     user_win_coordinates = user_battleship_location()
     computer_win_coordinates = computer_battleship_location()
     proper_coordinates = False

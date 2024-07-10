@@ -18,7 +18,7 @@ def print_computerboard(grid):
         print('\n')
         for j in range( grid_size ):
            print("|", grid[i][j], end=" |")
-
+    print()
 
 ##### user board
 def user_board (grid_size):
@@ -32,6 +32,7 @@ def print_userboard(grid):
         print('\n')
         for j in range( grid_size ):
            print("|", grid[i][j], end=" |")
+    print()
 
 
 
@@ -227,15 +228,15 @@ def computer_battleship_location():
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
-def user_choice(update_board):
+def user_turn(update_board):
 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
+  
+    print_computerboard(comupdate_board)
 
-    user_win_coordinates = user_battleship_location()
-    computer_win_coordinates = computer_battleship_location()
     proper_coordinates = False
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -262,7 +263,7 @@ def user_choice(update_board):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
-                        print_computerboard(update_board)
+                        print_computerboard(comupdate_board)
                         win_counter += 1
                         if win_counter == 3:
                             print("You win!")
@@ -279,7 +280,7 @@ def user_choice(update_board):
                         print("Already chosen input another coordinate! ")
                         
 
-                    print(f"Your ship is located at {user_win_coordinates}.  Your ship has {3 - win_counter} spaces remaining.")
+                    print(f"Your ship is located at {userWin_coordinates}.  Your ship has {3 - win_counter} spaces remaining.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")
@@ -324,6 +325,9 @@ def computer_turn(update_board):
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print_userboard(userupdate_board)
+    
+    placeholer = input("Press enter for Player Turn: ")
+    os.system('cls')
             
 
 
@@ -343,5 +347,10 @@ while(repeat):
     userupdate_board = user_board(grid_size)
 print("User Board: ")    
 print_userboard(userupdate_board)
-user_choice(comupdate_board)
-computer_turn(userupdate_board)
+userWin_coordinates = user_battleship_location()
+computer_win_coordinates = computer_battleship_location()
+computer_battleship_location()
+repeat = True
+while(repeat):
+    user_turn(comupdate_board)
+    computer_turn(userupdate_board)

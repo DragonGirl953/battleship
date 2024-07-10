@@ -167,7 +167,7 @@ def user_choice(update_board):
     numbers_available = numbers[ 0 : grid_size]
 
     limit = 10
-    win_coordinates = battleship_location(grid_size)
+    win_coordinates = battleship_location()
     proper_coordinates = False
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -238,4 +238,4 @@ while(repeat):
         print("Invalid Syntax! ")
     update_board = board(grid_size)
 print_board(update_board)
-user_choice(update_board, grid_size)
+user_choice(update_board)

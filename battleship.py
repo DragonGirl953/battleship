@@ -122,6 +122,7 @@ def user_battleship_location():
                 else: 
                     if single_coordinates[0] in letters_available and single_coordinates[1] in numbers_available:
                         single_coordinates[0] = letters_available.index(single_coordinates[0])
+                        valid_coordinates = True
                     else:
                         print("Enter a column and row in letter , number format! ")
                     

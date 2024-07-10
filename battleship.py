@@ -1,5 +1,6 @@
 #### single player battle ship
 import random
+import os
 
 user_guesses = []
 
@@ -17,6 +18,13 @@ def print_board(grid):
 
 #### designates a location on the grid
 def battleship_location():
+
+    
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    letters_available = letters[ 0 : grid_size]
+    numbers_available = numbers[ 0 : grid_size]
+
     placement = False
     win_coordinates = []
     single_coordinates = []
@@ -82,27 +90,22 @@ def battleship_location():
         valid_coordinates = False
         while valid_coordinates == False:
             win_coordinates.clear()
-            manual = input("Choose a location for the ship (Enter the coordinates in number, letter format eg. A,1): ")
+            manual = input("Choose a location for the ship (Enter the coordinates in letter, number format eg. A,1): ")
             try:
                 manual = manual.strip()
                 single_coordinates = manual.split(",")
-                if single_coordinates[0].lower() == "a":
-                    single_coordinates[0] = 0
-                elif single_coordinates[0].lower() == "b":
-                    single_coordinates[0] = 1
-                elif single_coordinates[0].lower() == "c":
-                    single_coordinates[0] = 2
-                elif single_coordinates[0].lower() == "d":
-                    single_coordinates[0] = 3
-                elif single_coordinates[0].lower() == "e":
-                    single_coordinates[0] = 4
-                else:
-                    print("Invalid coordinates.")
-                    continue
+                if len(single_coordinates) == 1:
+                    print("Please enter a column and row in letter, number format (A,1): ")
+                else: 
+                    if single_coordinates[0].lower() in letters_available and single_coordinates[1] in numbers_available:
+                        single_coordinates[0] = letters_available.index(single_coordinates[0])
+                    else:
+                        print("Enter a column and row in letter , number format! ")
+                    
                 col = single_coordinates[0]
                 try:
                     single_coordinates[1] = int(single_coordinates[1])
-                    if single_coordinates[1] <= 5 and single_coordinates[1] >= 1:
+                    if 0 < single_coordinates[1] <= grid_size :
                         single_coordinates[1] -= 1
                         row = single_coordinates[1]
                         win_coordinates.append(single_coordinates.copy())
@@ -110,6 +113,8 @@ def battleship_location():
                 except:
                     print("Invalid coordinates. Try again.")
                     continue
+
+                #####
                 
                 try:
                     direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
@@ -155,6 +160,12 @@ def battleship_location():
 
 #### user puts in a location and it updates and prints the board
 def user_choice(update_board):
+
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    letters_available = letters[ 0 : grid_size]
+    numbers_available = numbers[ 0 : grid_size]
+
     limit = 10
     win_coordinates = battleship_location()
     proper_coordinates = False
@@ -166,26 +177,22 @@ def user_choice(update_board):
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
-            if individual_coordinates[0].lower() == "a":
-                individual_coordinates[0] = 0
-            elif individual_coordinates[0].lower() == "b":
-                individual_coordinates[0] = 1
-            elif individual_coordinates[0].lower() == "c":
-                individual_coordinates[0] = 2
-            elif individual_coordinates[0].lower() == "d":
-                individual_coordinates[0] = 3
-            elif individual_coordinates[0].lower() == "e":
-                individual_coordinates[0] = 4
-            else:
-                print("Invalid coordinates.")
-                continue
+            if len(individual_coordinates) == 1:
+                    print("Please enter a column and row in letter, number format (A,1): ")
+            else: 
+                if individual_coordinates[0].lower() in letters_available and individual_coordinates[1] in numbers_available:
+                        individual_coordinates[0] = letters_available.index(individual_coordinates[0])
+                else:
+                        print("Enter a column and row in letter , number format! ")
             
             try:
                 individual_coordinates[1] = int(individual_coordinates[1])
-                if individual_coordinates[1] <= 5 and individual_coordinates[1] >= 1:
+                if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
                     if individual_coordinates in win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                        user_guesses.append(individual_coordinates)
+                        os.system('cls')
                         print_board(update_board)
                         win_counter += 1
                         if win_counter == 3:
@@ -193,16 +200,18 @@ def user_choice(update_board):
                             break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                        user_guesses.append(individual_coordinates)
+                        os.system('cls')
                         print_board(update_board)
                     
                     else:
                         print("Already chosen input another coordinate! ")
                         
-                    if len(board) >= limit:
+                    if len(user_guesses) >= limit:
                         print("You are out of turns.")
                         break
                     else:
-                        turns_left = limit - len(board)
+                        turns_left = limit - len(user_guesses)
                         print(f"{turns_left} guesses left.")
                     
                 else:
@@ -217,7 +226,16 @@ def user_choice(update_board):
 
 
 #### main
-grid_size = int(input("Please enter one number for your grid size: ")) 
-update_board = board(grid_size)
+repeat = True
+while(repeat):
+    try:
+        grid_size = int(input("Please enter a number between 4-10 for your grid size: ")) 
+        if 3 < grid_size < 11:
+            repeat = False
+        else:
+            print("Enter a number between 1-10! ")
+    except:
+        print("Invalid Syntax! ")
+    update_board = board(grid_size)
 print_board(update_board)
 user_choice(update_board)

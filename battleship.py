@@ -47,8 +47,8 @@ def battleship_location():
         while out_of_bounds:
             win_coordinates.clear()
             direction_choice = random.randint(0,1)
-            col = random.randint(0,grid_size)
-            row = random.randint(0,grid_size)
+            col = random.randint(0,grid_size - 1)
+            row = random.randint(0,grid_size - 1)
             single_coordinates.append(col)
             single_coordinates.append(row)
             win_coordinates.append(single_coordinates.copy())
@@ -71,7 +71,7 @@ def battleship_location():
 
                 
             elif direction_choice == 1:
-                if row-1 < 0 or row+1 > 4:
+                if row-1 < 0 or row+1 > grid_size:
                     continue
                 else:
                     single_coordinates.append(col)

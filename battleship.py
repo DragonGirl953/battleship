@@ -22,7 +22,7 @@ def print_computerboard(grid):
 
 ##### user board
 def user_board (grid_size):
-    grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
+    grid = [['=' for col in range(grid_size)] for row in range(grid_size)]
     
     return grid
 
@@ -37,7 +37,6 @@ def print_userboard(grid):
 
 #### designates a location on the grid
 def battleship_location():
-
     
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -65,44 +64,46 @@ def battleship_location():
         out_of_bounds= True
         while out_of_bounds:
             win_coordinates.clear()
-            direction_choice = random.randint(0,1)
+            #direction_choice = random.randint(0,1)
             col = random.randint(0,grid_size - 1)
             row = random.randint(0,grid_size - 1)
             single_coordinates.append(col)
             single_coordinates.append(row)
             win_coordinates.append(single_coordinates.copy())
             single_coordinates.clear()
+            print(win_coordinates)
+            out_of_bounds = False
 
-            if direction_choice == 0:
-                if col-1 < 0 or col+1 > grid_size - 1:
-                    continue
-                else:
-                    single_coordinates.append(col-1)
-                    single_coordinates.append(row)
-                    win_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()
-                    single_coordinates.append(col+1)
-                    single_coordinates.append(row)
-                    win_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()
-                    out_of_bounds = False
-                    print(win_coordinates)
+            # if direction_choice == 0:
+            #     if col-1 < 0 or col+1 > grid_size - 1:
+            #         continue
+            #     else:
+            #         single_coordinates.append(col-1)
+            #         single_coordinates.append(row)
+            #         win_coordinates.append(single_coordinates.copy())
+            #         single_coordinates.clear()
+            #         single_coordinates.append(col+1)
+            #         single_coordinates.append(row)
+            #         win_coordinates.append(single_coordinates.copy())
+            #         single_coordinates.clear()
+            #         out_of_bounds = False
+            #         print(win_coordinates)
 
                 
-            elif direction_choice == 1:
-                if row-1 < 0 or row+1 > grid_size - 1:
-                    continue
-                else:
-                    single_coordinates.append(col)
-                    single_coordinates.append(row-1)
-                    win_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()
-                    single_coordinates.append(col)
-                    single_coordinates.append(row+1)
-                    win_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()  
-                    out_of_bounds = False
-                    print(win_coordinates)
+            # elif direction_choice == 1:
+            #     if row-1 < 0 or row+1 > grid_size - 1:
+            #         continue
+            #     else:
+            #         single_coordinates.append(col)
+            #         single_coordinates.append(row-1)
+            #         win_coordinates.append(single_coordinates.copy())
+            #         single_coordinates.clear()
+            #         single_coordinates.append(col)
+            #         single_coordinates.append(row+1)
+            #         win_coordinates.append(single_coordinates.copy())
+            #         single_coordinates.clear()  
+            #         out_of_bounds = False
+            #         print(win_coordinates)
 
 
     elif ship_place == 2:
@@ -224,6 +225,7 @@ def user_choice(update_board):
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
                         print_computerboard(update_board)
+                        break
                     
                     else:
                         print("Already chosen input another coordinate! ")
@@ -245,6 +247,44 @@ def user_choice(update_board):
             continue     
     return individual_coordinates
 
+##### computer turn function
+def computer_turn(update_board):
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    letters_available = letters[ 0 : grid_size]
+    numbers_available = numbers[ 0 : grid_size]
+    compWin_counter = 0
+    os.system('cls')
+
+    #### PLACE HOLDER V
+    compWin_cords = [1, 2]
+
+    print_userboard(userupdate_board)
+    print("Computer will now take a guess...")
+
+    repeat = True
+    while repeat == True:
+        compCol = random.randint(0, grid_size - 1)
+        compRow = random.randint(0, grid_size - 1)
+        com_coordinates = (compRow, compCol)
+        print(letters[compCol], ",", numbers[compRow])
+        if userupdate_board[compRow][compCol] == "=":
+            repeat = False
+
+    if com_coordinates in compWin_cords:
+        userupdate_board[compRow][compCol] = "X"
+        computer_guesses.append(com_coordinates)
+        print_userboard(userupdate_board)
+        compWin_counter += 1
+        if compWin_counter == 3:
+            print("You win!")
+    else:
+        userupdate_board[compRow][compCol] = "O"
+        computer_guesses.append(com_coordinates)
+        print_userboard(userupdate_board)
+            
+
+
 
 #### main
 repeat = True
@@ -257,6 +297,9 @@ while(repeat):
             print("Enter a number between 1-10! ")
     except:
         print("Invalid Syntax! ")
-    update_board = computer_board(grid_size)
-print_computerboard(update_board)
-user_choice(update_board)
+    comupdate_board = computer_board(grid_size)
+    userupdate_board = user_board(grid_size)
+print("User Board: ")    
+print_userboard(userupdate_board)
+user_choice(comupdate_board)
+computer_turn(userupdate_board)

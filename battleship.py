@@ -16,7 +16,7 @@ def print_board(grid):
            print("|", grid[i][j], end=" |")
 
 #### designates a location on the grid
-def battleship_location():
+def battleship_location(grid_size):
     placement = False
     win_coordinates = []
     single_coordinates = []
@@ -47,7 +47,7 @@ def battleship_location():
             single_coordinates.clear()
 
             if direction_choice == 0:
-                if col-1 < 0 or col+1 > 4:
+                if col-1 < 0 or col+1 > grid_size:
                     continue
                 else:
                     single_coordinates.append(col-1)
@@ -102,7 +102,7 @@ def battleship_location():
                 col = single_coordinates[0]
                 try:
                     single_coordinates[1] = int(single_coordinates[1])
-                    if single_coordinates[1] <= 5 and single_coordinates[1] >= 1:
+                    if single_coordinates[1] <= grid_size and single_coordinates[1] >= 1:
                         single_coordinates[1] -= 1
                         row = single_coordinates[1]
                         win_coordinates.append(single_coordinates.copy())
@@ -114,7 +114,7 @@ def battleship_location():
                 try:
                     direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
                     if direction == 1:
-                        if row-1 < 0 or row+1 > 4:
+                        if row-1 < 0 or row+1 > grid_size:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:
@@ -129,7 +129,7 @@ def battleship_location():
                             valid_coordinates = True
                             print(win_coordinates)
                     elif direction == 2:
-                        if col-1 < 0 or col+1 > 4:
+                        if col-1 < 0 or col+1 > grid_size:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:
@@ -154,9 +154,9 @@ def battleship_location():
 
 
 #### user puts in a location and it updates and prints the board
-def user_choice(update_board):
+def user_choice(update_board, grid_size):
     limit = 10
-    win_coordinates = battleship_location()
+    win_coordinates = battleship_location(grid_size)
     proper_coordinates = False
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -222,4 +222,4 @@ def user_choice(update_board):
 grid_size = int(input("Please enter one number for your grid size: ")) 
 update_board = board(grid_size)
 print_board(update_board)
-user_choice(update_board)
+user_choice(update_board, grid_size)

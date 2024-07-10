@@ -55,7 +55,7 @@ def battleship_location():
             single_coordinates.clear()
 
             if direction_choice == 0:
-                if col-1 < 0 or col+1 > 4:
+                if col-1 < 0 or col+1 > grid_size:
                     continue
                 else:
                     single_coordinates.append(col-1)
@@ -119,7 +119,7 @@ def battleship_location():
                 try:
                     direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
                     if direction == 1:
-                        if row-1 < 0 or row+1 > 4:
+                        if row-1 < 0 or row+1 > grid_size:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:
@@ -134,7 +134,7 @@ def battleship_location():
                             valid_coordinates = True
                             print(win_coordinates)
                     elif direction == 2:
-                        if col-1 < 0 or col+1 > 4:
+                        if col-1 < 0 or col+1 > grid_size:
                             print("Coordinates out of bounds.  Try again.")
                             continue
                         else:
@@ -167,7 +167,7 @@ def user_choice(update_board):
     numbers_available = numbers[ 0 : grid_size]
 
     limit = 10
-    win_coordinates = battleship_location()
+    win_coordinates = battleship_location(grid_size)
     proper_coordinates = False
     win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
@@ -238,4 +238,4 @@ while(repeat):
         print("Invalid Syntax! ")
     update_board = board(grid_size)
 print_board(update_board)
-user_choice(update_board)
+user_choice(update_board, grid_size)

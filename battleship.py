@@ -228,7 +228,6 @@ def computer_battleship_location():
         #         single_coordinates.clear()  
         #         out_of_bounds = False
         #         print(win_coordinates)
-    
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board

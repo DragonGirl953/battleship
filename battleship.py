@@ -187,7 +187,7 @@ def computer_battleship_location():
     out_of_bounds= True
     while out_of_bounds:
         compWin_coordinates.clear()
-        direction_choice = random.randint(0,1)
+        # direction_choice = random.randint(0,1)
         col = random.randint(0,grid_size - 1)
         row = random.randint(0,grid_size - 1)
         single_coordinates.append(col)
@@ -227,10 +227,11 @@ def computer_battleship_location():
         #         single_coordinates.clear()  
         #         out_of_bounds = False
         #         print(win_coordinates)
+    print(compWin_coordinates)
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board):
+def user_turn(update_board, computer_win_coordinates):
 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -241,7 +242,7 @@ def user_turn(update_board):
     print_computerboard(comupdate_board)
 
     proper_coordinates = False
-    win_counter = 0
+    # win_counter = 0
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     while proper_coordinates == False:
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
@@ -252,6 +253,7 @@ def user_turn(update_board):
             individual_coordinates[0] = individual_coordinates[0].lower()
             if len(individual_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
+                    continue
             else: 
                 if individual_coordinates[0] in letters_available and individual_coordinates[1] in numbers_available:
                         individual_coordinates[0] = letters_available.index(individual_coordinates[0])
@@ -262,16 +264,18 @@ def user_turn(update_board):
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
+                    print(f"Individual coordinate: {individual_coordinates[1]}{individual_coordinates[0]}")
                     if individual_coordinates in computer_win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
                         print("Players Board: ")
                         print_computerboard(comupdate_board)
-                        win_counter += 1
-                        if win_counter == 1:
-                            print("You win!")
-                            break
+                        return False
+                        # win_counter += 1
+                        # if win_counter == 3:
+                        #     print("You win!")
+                        #     break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
@@ -283,28 +287,27 @@ def user_turn(update_board):
                     
                     else:
                         print("Already chosen input another coordinate! ")
-                        
-
-                    print(f"Your ship is located at {userWin_coordinates}. Your ship has {1 - win_counter} spaces remaining.")
                     
                 else:
                     print("Coordinates out of bounds.  Try again.")
+
+                print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.")
                 
             except:
                 print("Invalid coordinates.  ffsfdfsdTry again.")       
 
         except:
             continue     
-    return individual_coordinates
+    return True
 
 ##### computer turn function
-def computer_turn(update_board):
+def computer_turn(update_board, userWin_coordinates):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
     compWin_counter = 0
-    os.system('cls')
+    
 
     #### PLACE HOLDER V
     compWin_cords = [1, 2]
@@ -314,7 +317,7 @@ def computer_turn(update_board):
     while repeat == True:
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
-        com_coordinates = (compRow, compCol)
+        com_coordinates = [compRow, compCol]
         if userupdate_board[compRow][compCol] == "=":
             repeat = False
 
@@ -324,17 +327,18 @@ def computer_turn(update_board):
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
         print_userboard(userupdate_board)
-        compWin_counter += 1
-        if compWin_counter == 3:
-            print("You win!")
+        return False
+        # compWin_counter += 1
+        # if compWin_counter == 3:
+        #     print("You win!")
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print_userboard(userupdate_board)
+        placeholer = input("Press enter for Player Turn: ")
+        return True
     
-    placeholer = input("Press enter for Player Turn: ")
-    os.system('cls')
-            
+    
 
 
 
@@ -355,7 +359,15 @@ print("Players Board: ")
 print_userboard(userupdate_board)
 userWin_coordinates = user_battleship_location()
 computer_win_coordinates = computer_battleship_location()
-repeat = True
-while(repeat):
-    user_turn(comupdate_board)
-    computer_turn(userupdate_board)
+user_repeat = True
+computer_repeat = True
+while user_repeat == True and computer_repeat == True:
+    user_repeat = user_turn(comupdate_board, computer_win_coordinates)
+    if user_repeat == False:
+        print("You win!")
+        break
+    computer_repeat = computer_turn(userupdate_board, userWin_coordinates)
+    if computer_repeat == False:
+        print("You lost.  Computer wins!")
+        break
+    os.system('cls')

@@ -62,6 +62,7 @@ def user_battleship_location():
                 print("Invalid input.")
         except:
             print("Invalid input.")
+    # This runs if random (1) is chosen; It generates random coordinates for the ship, appends them to userWin_coordinates, and prints them out for the user to see.
     if ship_place == 1:
         out_of_bounds= True
         while out_of_bounds:
@@ -73,7 +74,7 @@ def user_battleship_location():
             single_coordinates.append(row)
             userWin_coordinates.append(single_coordinates.copy())
             single_coordinates.clear()
-            print(userWin_coordinates)
+            print(f"Your ship's coordinates are {userWin_coordinates}")
             out_of_bounds = False
 
             # if direction_choice == 0:
@@ -107,12 +108,13 @@ def user_battleship_location():
             #         out_of_bounds = False
             #         print(win_coordinates)
 
-
+    # This runs if manual (2) is chosem; it prompts the user to enter coordinates in a number, letter format.
     elif ship_place == 2:
         valid_coordinates = False
         while valid_coordinates == False:
             userWin_coordinates.clear()
             manual = input("Choose a location for the ship (Enter the coordinates in letter, number format eg. A,1): ")
+            # Splits the user-entered coordinates and turns them into coordinates python can understand.  If it can't, makes the user re-enter the coordinates.
             try:
                 manual = manual.strip()
                 single_coordinates = manual.split(",")
@@ -180,7 +182,7 @@ def user_battleship_location():
             except:
                 continue  
     return userWin_coordinates
-
+# Randomly generates coordinates for the computer and prints them.
 def computer_battleship_location():
     compWin_coordinates = []
     single_coordinates = []

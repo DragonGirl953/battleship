@@ -266,7 +266,6 @@ def user_turn(update_board, computer_win_coordinates):
                     if individual_coordinates in computer_win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
-                        #os.system('cls')
                         print_computerboard(comupdate_board)
                         return False
                         # win_counter += 1
@@ -276,7 +275,6 @@ def user_turn(update_board, computer_win_coordinates):
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
-                        #os.system('cls')
                         print_computerboard(update_board)
                         nextTurn = input("Press enter for the computers turn: ")
                         break
@@ -303,7 +301,7 @@ def computer_turn(update_board, userWin_coordinates):
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
     compWin_counter = 0
-    #os.system('cls')
+    
 
     #### PLACE HOLDER V
     compWin_cords = [1, 2]
@@ -313,7 +311,7 @@ def computer_turn(update_board, userWin_coordinates):
     while repeat == True:
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
-        com_coordinates = (compRow, compCol)
+        com_coordinates = [compRow, compCol]
         if userupdate_board[compRow][compCol] == "=":
             repeat = False
 
@@ -334,7 +332,7 @@ def computer_turn(update_board, userWin_coordinates):
         print_userboard(userupdate_board)
         placeholer = input("Press enter for Player Turn: ")
         return True
-    #os.system('cls')
+    
     
 
 

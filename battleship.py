@@ -226,7 +226,6 @@ def computer_battleship_location():
         #         single_coordinates.clear()  
         #         out_of_bounds = False
         #         print(win_coordinates)
-    print(compWin_coordinates)
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
@@ -298,13 +297,9 @@ def user_turn(update_board, computer_win_coordinates):
 def computer_turn(update_board, userWin_coordinates):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
-    compWin_counter = 0
+    # compWin_counter = 0
     
 
-    #### PLACE HOLDER V
-    compWin_cords = [1, 2]
     print("Computer will now take a guess...")
 
     repeat = True
@@ -316,7 +311,6 @@ def computer_turn(update_board, userWin_coordinates):
             repeat = False
 
     print(letters[compCol], ",", numbers[compRow])
-    print(com_coordinates, ",", userWin_coordinates)
     print(computer_guesses)
     if com_coordinates in userWin_coordinates:
         userupdate_board[compRow][compCol] = "X"
@@ -348,8 +342,8 @@ while(repeat):
             print("Enter a number between 1-10! ")
     except:
         print("Invalid Syntax! ")
-    comupdate_board = computer_board(grid_size)
-    userupdate_board = user_board(grid_size)
+comupdate_board = computer_board(grid_size)
+userupdate_board = user_board(grid_size)
 print("User Board: ")    
 print_userboard(userupdate_board)
 userWin_coordinates = user_battleship_location()

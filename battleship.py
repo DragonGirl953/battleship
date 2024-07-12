@@ -193,6 +193,7 @@ def computer_battleship_location():
         single_coordinates.append(col)
         single_coordinates.append(row)
         compWin_coordinates.append(single_coordinates.copy())
+        print("Computers ship: ", compWin_coordinates)
         single_coordinates.clear()
         out_of_bounds = False
 
@@ -236,7 +237,8 @@ def user_turn(update_board, computer_win_coordinates):
     letters_available = letters[ 0 : grid_size]
     numbers_available = numbers[ 0 : grid_size]
   
-    print_computerboard(update_board)
+    print("Players Board: ")
+    print_computerboard(comupdate_board)
 
     proper_coordinates = False
     # win_counter = 0
@@ -265,6 +267,8 @@ def user_turn(update_board, computer_win_coordinates):
                     if individual_coordinates in computer_win_coordinates and update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
+                        os.system('cls')
+                        print("Players Board: ")
                         print_computerboard(comupdate_board)
                         return False
                         # win_counter += 1
@@ -274,6 +278,8 @@ def user_turn(update_board, computer_win_coordinates):
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
+                        os.system('cls')
+                        print("Players Board: ")
                         print_computerboard(update_board)
                         nextTurn = input("Press enter for the computers turn: ")
                         break
@@ -311,7 +317,7 @@ def computer_turn(update_board, userWin_coordinates):
             repeat = False
 
     print(letters[compCol], ",", numbers[compRow])
-    print(computer_guesses)
+
     if com_coordinates in userWin_coordinates:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
@@ -344,7 +350,7 @@ while(repeat):
         print("Invalid Syntax! ")
 comupdate_board = computer_board(grid_size)
 userupdate_board = user_board(grid_size)
-print("User Board: ")    
+print("User's Board: ")    
 print_userboard(userupdate_board)
 userWin_coordinates = user_battleship_location()
 computer_win_coordinates = computer_battleship_location()

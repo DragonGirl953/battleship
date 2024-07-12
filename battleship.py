@@ -36,7 +36,7 @@ def print_userboard(grid):
 
 
 
-#### designates a location on the grid
+#### designates a location on the grid whether random or manual with user input
 def user_battleship_location():
 
     
@@ -73,7 +73,7 @@ def user_battleship_location():
             single_coordinates.append(row)
             userWin_coordinates.append(single_coordinates.copy())
             single_coordinates.clear()
-            print(userWin_coordinates)
+            print("Your ship is at: ", userWin_coordinates)
             out_of_bounds = False
 
             # if direction_choice == 0:
@@ -133,6 +133,7 @@ def user_battleship_location():
                         single_coordinates[1] -= 1
                         row = single_coordinates[1]
                         userWin_coordinates.append(single_coordinates.copy())
+                        print("Users ship: ", userWin_coordinates)
                         single_coordinates.clear()
                 except:
                     print("Invalid coordinates. Try again.")
@@ -181,13 +182,13 @@ def user_battleship_location():
                 continue  
     return userWin_coordinates
 
+#### computer makes random ship location
 def computer_battleship_location():
     compWin_coordinates = []
     single_coordinates = []
     out_of_bounds= True
     while out_of_bounds:
         compWin_coordinates.clear()
-        # direction_choice = random.randint(0,1)
         col = random.randint(0,grid_size - 1)
         row = random.randint(0,grid_size - 1)
         single_coordinates.append(col)
@@ -227,7 +228,7 @@ def computer_battleship_location():
         #         single_coordinates.clear()  
         #         out_of_bounds = False
         #         print(win_coordinates)
-    print(compWin_coordinates)
+    
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
@@ -241,9 +242,9 @@ def user_turn(update_board, computer_win_coordinates):
     print("Players Board: ")
     print_computerboard(comupdate_board)
 
-    proper_coordinates = False
-    # win_counter = 0
+
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
+    proper_coordinates = False
     while proper_coordinates == False:
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
         
@@ -259,7 +260,7 @@ def user_turn(update_board, computer_win_coordinates):
                         individual_coordinates[0] = letters_available.index(individual_coordinates[0])
                 else:
                         print("Enter a column and row in letter , number format! ")
-            
+            #### prints user hits or misses
             try:
                 individual_coordinates[1] = int(individual_coordinates[1])
                 if 0 < individual_coordinates[1] <= grid_size :
@@ -269,18 +270,14 @@ def user_turn(update_board, computer_win_coordinates):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
-                        print("Players Board: ")
+                        print("Users Board: ")
                         print_computerboard(comupdate_board)
                         return False
-                        # win_counter += 1
-                        # if win_counter == 3:
-                        #     print("You win!")
-                        #     break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
-                        print("Players Board: ")
+                        print("Users Board: ")
                         print_computerboard(update_board)
                         nextTurn = input("Press enter for the computers turn: ")
                         break
@@ -294,7 +291,7 @@ def user_turn(update_board, computer_win_coordinates):
                 print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.")
                 
             except:
-                print("Invalid coordinates.  ffsfdfsdTry again.")       
+                print("Invalid coordinates. Try again.")       
 
         except:
             continue     
@@ -304,15 +301,12 @@ def user_turn(update_board, computer_win_coordinates):
 def computer_turn(update_board, userWin_coordinates):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
-    compWin_counter = 0
-    
+    os.system('cls')
 
-    #### PLACE HOLDER V
-    compWin_cords = [1, 2]
     print("Computer will now take a guess...")
 
+
+    ##### computer randomizes coordinates till one is available 
     repeat = True
     while repeat == True:
         compCol = random.randint(0, grid_size - 1)
@@ -323,14 +317,13 @@ def computer_turn(update_board, userWin_coordinates):
 
     print(letters[compCol], ",", numbers[compRow])
 
-    if com_coordinates in compWin_cords:
+    #### when computer gets a hit
+    if com_coordinates in userWin_coordinates:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
         print_userboard(userupdate_board)
         return False
-        # compWin_counter += 1
-        # if compWin_counter == 3:
-        #     print("You win!")
+    #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
@@ -342,7 +335,9 @@ def computer_turn(update_board, userWin_coordinates):
 
 
 
-#### main
+########################## main
+
+##### repeats until user inputs valid response
 repeat = True
 while(repeat):
     try:
@@ -353,12 +348,15 @@ while(repeat):
             print("Enter a number between 1-10! ")
     except:
         print("Invalid Syntax! ")
-    comupdate_board = computer_board(grid_size)
-    userupdate_board = user_board(grid_size)
-print("Players Board: ")    
+
+comupdate_board = computer_board(grid_size)
+userupdate_board = user_board(grid_size)
+print("Users Board: ")    
 print_userboard(userupdate_board)
 userWin_coordinates = user_battleship_location()
 computer_win_coordinates = computer_battleship_location()
+
+###### repeats turn functions until one of them returns a win 
 user_repeat = True
 computer_repeat = True
 while user_repeat == True and computer_repeat == True:

@@ -4,9 +4,8 @@ import os
 
 user_guesses = []
 computer_guesses = []
-
+alphabet = ["    A ", "   B ", "   C ", "   D ", "   E ", "   F ", "   G ", "   H ", "   I ", "   J "]
 #####computer board
-
 def computer_board (grid_size):
     grid = [['-' for col in range(grid_size)] for row in range(grid_size)]
     
@@ -14,10 +13,26 @@ def computer_board (grid_size):
 
 
 def print_computerboard(grid):
-    for i in range( grid_size):
-        print('\n')
+    count = 0
+    t = 0
+    num = 1
+
+    for i in range(grid_size):
+        print(alphabet[i], end=" ")
+    print()
+
+    for i in range(grid_size):
+        if count > 0:
+              print('\n')
+        count += 1
         for j in range( grid_size ):
-           print("|", grid[i][j], end=" |")
+            if t == 0 or t % grid_size == 0:
+                print(num, "|", grid[i][j], end=" |")
+                t += 1
+                num += 1
+            else:
+               print("", "|", grid[i][j], end=" |")
+               t += 1
     print()
 
 ##### user board
@@ -28,10 +43,26 @@ def user_board (grid_size):
 
 
 def print_userboard(grid):
-    for i in range( grid_size):
-        print('\n')
+    count = 0
+    t = 0
+    num = 1
+
+    for i in range(grid_size):
+        print(alphabet[i], end=" ")
+    print()
+
+    for i in range(grid_size):
+        if count > 0:
+              print('\n')
+        count += 1
         for j in range( grid_size ):
-           print("|", grid[i][j], end=" |")
+            if t == 0 or t % grid_size == 0:
+                print(num, "|", grid[i][j], end=" |")
+                t += 1
+                num += 1
+            else:
+               print("", "|", grid[i][j], end=" |")
+               t += 1
     print()
 
 
@@ -348,10 +379,9 @@ while(repeat):
             print("Enter a number between 1-10! ")
     except:
         print("Invalid Syntax! ")
-
-comupdate_board = computer_board(grid_size)
-userupdate_board = user_board(grid_size)
-print("Users Board: ")    
+    comupdate_board = computer_board(grid_size)
+    userupdate_board = user_board(grid_size)
+print("Players Board: ")    
 print_userboard(userupdate_board)
 userWin_coordinates = user_battleship_location()
 computer_win_coordinates = computer_battleship_location()

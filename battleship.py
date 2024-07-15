@@ -67,7 +67,7 @@ def user_battleship_location():
         out_of_bounds= True
         while out_of_bounds:
             userWin_coordinates.clear()
-            #direction_choice = random.randint(0,1)
+            direction_choice = random.randint(0,1)
             col = random.randint(0,grid_size - 1)
             row = random.randint(0,grid_size - 1)
             single_coordinates.append(col)
@@ -77,20 +77,20 @@ def user_battleship_location():
             print("Your ship is at: ", userWin_coordinates)
             out_of_bounds = False
 
-            # if direction_choice == 0:
-            #     if col-1 < 0 or col+1 > grid_size - 1:
-            #         continue
-            #     else:
-            #         single_coordinates.append(col-1)
-            #         single_coordinates.append(row)
-            #         win_coordinates.append(single_coordinates.copy())
-            #         single_coordinates.clear()
-            #         single_coordinates.append(col+1)
-            #         single_coordinates.append(row)
-            #         win_coordinates.append(single_coordinates.copy())
-            #         single_coordinates.clear()
-            #         out_of_bounds = False
-            #         print(win_coordinates)
+            if direction_choice == 0:
+                if col-1 < 0 or col+1 > grid_size - 1:
+                    continue
+                else:
+                    single_coordinates.append(col-1)
+                    single_coordinates.append(row)
+                    userWin_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()
+                    single_coordinates.append(col+1)
+                    single_coordinates.append(row)
+                    userWin_coordinates.append(single_coordinates.copy())
+                    single_coordinates.clear()
+                    out_of_bounds = False
+                    print(userWin_coordinates)
 
                 
             # elif direction_choice == 1:

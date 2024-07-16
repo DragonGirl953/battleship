@@ -380,7 +380,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         player_win_count += 1
                         print(player_win_count)
                         if player_win_count == 4:
-                            return False
+                            return False, player_win_count
                         else:
                             print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
                             nextTurn = input("Press enter for the computer's turn: ")
@@ -406,7 +406,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
 
         except:
             continue    
-    return True
+    return True, player_win_count
 
 ##### computer turn function
 def computer_turn(userupdate_board, userWin_coordinates, win_counter):
@@ -435,17 +435,17 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
         print_userboard(userupdate_board)
         win_counter += 1
         if win_counter == 4:
-            return False
+            return False, win_counter
         else:
             placeholder = input("Press enter for Player Turn: ")
-            return True
+            return True, win_counter
     #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print_userboard(userupdate_board)
         placeholder = input("Press enter for Player Turn: ")
-        return True
+        return True, win_counter
     
     
 
@@ -477,11 +477,11 @@ computer_repeat = True
 player_win_count = 0
 computer_win_count = 0
 while user_repeat == True and computer_repeat == True:
-    user_repeat = user_turn(comupdate_board, computer_win_coordinates, player_win_count)
+    user_repeat, player_win_count = user_turn(comupdate_board, computer_win_coordinates, player_win_count)
     if user_repeat == False:
         print("You win!")
         break
-    computer_repeat = computer_turn(userupdate_board, userWin_coordinates, computer_win_count)
+    computer_repeat, computer_win_count = computer_turn(userupdate_board, userWin_coordinates, computer_win_count)
     if computer_repeat == False:
         print("You lost.  Computer wins!")
         break

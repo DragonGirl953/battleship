@@ -438,6 +438,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
+                        print("Hit!")
                         print("Users Board: ")
                         print_computerboard(comupdate_board)
                         player_win_count += 1
@@ -452,6 +453,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
+                        print("Miss")
                         print("Users Board: ")
                         print_computerboard(update_board)
                         print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
@@ -494,6 +496,7 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     if com_coordinates in userWin_coordinates:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
+        print("Hit!")
         print_userboard(userupdate_board)
         win_counter += 1
         if win_counter == 4:
@@ -505,6 +508,7 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
+        print("Miss!")
         print_userboard(userupdate_board)
         placeholder = input("Press enter for Player Turn: ")
         return True, win_counter

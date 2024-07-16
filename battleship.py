@@ -402,7 +402,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                     if individual_coordinates in computer_win_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
-                        # os.system('cls')
+                        os.system('cls')
                         print("Users Board: ")
                         print_computerboard(comupdate_board)
                         player_win_count += 1
@@ -416,7 +416,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
-                        # os.system('cls')
+                        os.system('cls')
                         print("Users Board: ")
                         print_computerboard(update_board)
                         print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
@@ -440,7 +440,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
 def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    # os.system('cls')
+    os.system('cls')
 
     print("Computer will now take a guess...")
 
@@ -529,4 +529,4 @@ while play_again == True:
             if tryAgain == "0":
                 play_again = False
             break
-        # os.system('cls')
+        os.system('cls')

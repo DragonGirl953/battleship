@@ -160,7 +160,7 @@ def user_battleship_location():
                     single_coordinates.clear()
                     continue
                 out_of_bounds = False
-
+                #### Vertical expansion of ship by one coordinate
                 if direction_choice == 0:
                     if col+1 > grid_size - 1:
                         single_coordinates.clear()
@@ -180,7 +180,7 @@ def user_battleship_location():
                             single_coordinates.clear()
                             tempWin_coordinates.clear()
                             out_of_bounds = False
-
+                #### Horizontal expansion of code
                 elif direction_choice == 1:
                     if row+1 > grid_size - 1:
                         single_coordinates.clear()
@@ -278,7 +278,7 @@ def user_battleship_location():
                                         userWin_coordinates.append(single_coordinates.copy())
                                         single_coordinates.clear()
                                         valid_coordinates = True
-                                        print(userWin_coordinates)
+                                        
                                         ship_count += 1
                                     elif left_or_right == 2:
                                         single_coordinates.append(col+1)
@@ -286,7 +286,7 @@ def user_battleship_location():
                                         userWin_coordinates.append(single_coordinates.copy())
                                         single_coordinates.clear()
                                         valid_coordinates = True
-                                        print(userWin_coordinates)
+                                        
                                         ship_count += 1
                                     else:
                                         continue
@@ -346,7 +346,7 @@ def computer_battleship_location():
             elif direction_choice == 1:
                 if row+1 > grid_size - 1:
                     single_coordinates.clear()
-                    print(compWin_coordinates)
+                    
                     continue
                 else:
                     tempWin_coordinates.append(single_coordinates.copy())
@@ -354,7 +354,7 @@ def computer_battleship_location():
                     single_coordinates.append(col)
                     single_coordinates.append(row+1)                    
                     if single_coordinates in compWin_coordinates:
-                        print("Double")
+                        
                         single_coordinates.clear()
                         tempWin_coordinates.clear()
                         continue
@@ -383,7 +383,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     proper_coordinates = False
     while proper_coordinates == False:
-        print(player_win_count)
+        print("Number of hits: ", player_win_count)
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
         
         try:
@@ -411,7 +411,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         print("Users Board: ")
                         print_computerboard(comupdate_board)
                         player_win_count += 1
-                        print(player_win_count)
+                        print("Hits: ", player_win_count)
                         if player_win_count == 4:
                             return False, player_win_count
                         else:

@@ -230,7 +230,11 @@ def user_battleship_location():
                         if 0 < single_coordinates[1] <= grid_size :
                             single_coordinates[1] -= 1
                             row = single_coordinates[1]
-                            userWin_coordinates.append(single_coordinates.copy())
+                            if single_coordinates in userWin_coordinates:
+                                print("Battleship already placed here.  Choose another location.")
+                                single_coordinates.clear()
+                                continue
+                            tempWin_coordinates.append(single_coordinates.copy())
                             single_coordinates.clear()
                     except:
                         print("Invalid coordinates. Try again.")
@@ -243,6 +247,7 @@ def user_battleship_location():
                         if direction == 1:
                             if row-1 < 0 or row+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
+                                tempWin_coordinates.clear()
                                 continue
                             else:
                                 try:
@@ -250,14 +255,26 @@ def user_battleship_location():
                                     if up_or_down == 1:
                                         single_coordinates.append(col)
                                         single_coordinates.append(row-1)
+                                        if single_coordinates in userWin_coordinates:
+                                            print("Battleship already placed here.  Choose another location.")
+                                            single_coordinates.clear()
+                                            continue
+                                        userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
                                         ship_count += 1
                                     elif up_or_down == 2:
                                         single_coordinates.append(col)
                                         single_coordinates.append(row+1)
+                                        if single_coordinates in userWin_coordinates:
+                                            print("Battleship already placed here.  Choose another location.")
+                                            single_coordinates.clear()
+                                            continue
+                                        userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        tempWin_coordinates.clear()
                                         single_coordinates.clear()  
                                         valid_coordinates = True
                                         ship_count += 1
@@ -268,6 +285,7 @@ def user_battleship_location():
                         elif direction == 2:
                             if col-1 < 0 or col+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
+                                tempWin_coordinates.clear()
                                 continue
                             else:
                                 try:
@@ -275,7 +293,13 @@ def user_battleship_location():
                                     if left_or_right == 1:
                                         single_coordinates.append(col-1)
                                         single_coordinates.append(row)
+                                        if single_coordinates in userWin_coordinates:
+                                            print("Battleship already placed here.  Choose another location.")
+                                            single_coordinates.clear()
+                                            continue
+                                        userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
                                         
@@ -283,7 +307,13 @@ def user_battleship_location():
                                     elif left_or_right == 2:
                                         single_coordinates.append(col+1)
                                         single_coordinates.append(row)
+                                        if single_coordinates in userWin_coordinates:
+                                            print("Battleship already placed here.  Choose another location.")
+                                            single_coordinates.clear()
+                                            continue
+                                        userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
                                         

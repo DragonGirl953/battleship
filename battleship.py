@@ -65,8 +65,6 @@ def print_userboard(grid):
                t += 1
     print()
 
-
-
 #### designates a location on the grid whether random or manual with user input
 def user_battleship_location():
 
@@ -338,7 +336,7 @@ def computer_battleship_location():
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board, computer_win_coordinates, win_counter):
+def user_turn(update_board, computer_win_coordinates, player_win_count):
 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -352,7 +350,7 @@ def user_turn(update_board, computer_win_coordinates, win_counter):
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     proper_coordinates = False
     while proper_coordinates == False:
-        print(win_counter)
+        print(player_win_count)
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
         
         try:
@@ -379,9 +377,9 @@ def user_turn(update_board, computer_win_coordinates, win_counter):
                         # os.system('cls')
                         print("Users Board: ")
                         print_computerboard(comupdate_board)
-                        win_counter += 1
-                        print(win_counter)
-                        if win_counter == 4:
+                        player_win_count += 1
+                        print(player_win_count)
+                        if player_win_count == 4:
                             return False
                         else:
                             print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
@@ -483,7 +481,7 @@ while user_repeat == True and computer_repeat == True:
     if user_repeat == False:
         print("You win!")
         break
-    computer_repeat = computer_turn(userupdate_board, userWin_coordinates, player_win_count)
+    computer_repeat = computer_turn(userupdate_board, userWin_coordinates, computer_win_count)
     if computer_repeat == False:
         print("You lost.  Computer wins!")
         break

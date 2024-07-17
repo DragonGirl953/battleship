@@ -329,7 +329,8 @@ def user_battleship_location():
 
                 except:
                     continue 
-    print("Your ship is at: ", userWin_coordinates)
+    print(ship_name1, "is at:", userWin_coordinates[0], userWin_coordinates[1])
+    print(ship_name2, "is at:", userWin_coordinates[2], userWin_coordinates[3])
     return userWin_coordinates
 
 # Randomly generates coordinates for the computer and prints them.
@@ -396,11 +397,12 @@ def computer_battleship_location():
                         ship_counter += 1  
                         out_of_bounds = False
         
-    print("Computers ships: ", compWin_coordinates)
+    print("Computer ship1 is at:", compWin_coordinates[0], compWin_coordinates[1])
+    print("Computer ship2 is at:", compWin_coordinates[2], compWin_coordinates[3])
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board, computer_win_coordinates, player_win_count):
+def user_turn(update_board, compWin_coordinates, player_win_count):
 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -434,24 +436,35 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                 if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
                     print(f"Individual coordinate: {individual_coordinates}")
-                    if individual_coordinates in computer_win_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
+                        print("Hit!")
                         print("Users Board: ")
                         print_computerboard(comupdate_board)
                         player_win_count += 1
                         print("Hits: ", player_win_count)
-                        if player_win_count == 4:
-                            return False, player_win_count
-                        else:
-                            print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                        if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
+                            print("Computer ship1 has been sunken! ")
                             nextTurn = input("Press enter for the computer's turn: ")
                             break
+                        elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
+                            print("Computer ship2 has been sunken! ")
+                            nextTurn = input("Press enter for the computer's turn: ")
+                            break
+                        else:
+                            if player_win_count == 4:
+                                return False, player_win_count
+                            else:
+                                print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                                nextTurn = input("Press enter for the computer's turn: ")
+                                break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
+                        print("Miss")
                         print("Users Board: ")
                         print_computerboard(update_board)
                         print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
@@ -484,8 +497,8 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     while repeat == True:
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
-        com_coordinates = [compRow, compCol]
-        if userupdate_board[compRow][compCol] == "= ":
+        com_coordinates = [compCol, compRow]
+        if userupdate_board[compCol][compRow] == "= ":
             repeat = False
 
     print(letters[compCol], ",", numbers[compRow])
@@ -494,6 +507,7 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     if com_coordinates in userWin_coordinates:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
+        print("Hit!")
         print_userboard(userupdate_board)
         win_counter += 1
         if win_counter == 4:
@@ -505,6 +519,7 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
+        print("Miss!")
         print_userboard(userupdate_board)
         placeholder = input("Press enter for Player Turn: ")
         return True, win_counter
@@ -536,19 +551,27 @@ while play_again == True:
     userupdate_board = user_board(grid_size)
 
     #### naming of players ship
-    ship_name = input("Name your battleship: ")
-    ship_list_name = ship_name
-    ship_list_name = []
+    ship_name1 = input("Name your first battleship: ")
+    ship_name2 = input("Name your second battleship: ")
+    
+    ship_list_name = {}
+    computerShips = {}
 
     userWin_coordinates = user_battleship_location()
-    computer_win_coordinates = computer_battleship_location()
+    compWin_coordinates = computer_battleship_location()
+    ship_list_name[ship_name1] = [userWin_coordinates[0], userWin_coordinates[1]]
+    ship_list_name[ship_name2] = [userWin_coordinates[2], userWin_coordinates[3]]
+    computerShips["ship1"] = [compWin_coordinates[0], compWin_coordinates[1]]
+    computerShips["ship2"] = [compWin_coordinates[2], compWin_coordinates[3]]
+
+    
     ###### repeats turn functions until one of them returns a win 
     user_repeat = True
     computer_repeat = True
     player_win_count = 0
     computer_win_count = 0
     while user_repeat == True and computer_repeat == True:
-        user_repeat, player_win_count = user_turn(comupdate_board, computer_win_coordinates, player_win_count)
+        user_repeat, player_win_count = user_turn(comupdate_board, compWin_coordinates, player_win_count)
         if user_repeat == False:
             print("You win!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")

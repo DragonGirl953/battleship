@@ -448,7 +448,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                             print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
                             nextTurn = input("Press enter for the computer's turn: ")
                             break
-                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
+                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')

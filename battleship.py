@@ -474,7 +474,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
     return True, player_win_count
 
 ##### computer turn function
-def computer_turn(userupdate_board, userWin_coordinates, win_counter, ship_list_name):
+def computer_turn(userupdate_board, win_counter, ship_list_name):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     os.system('cls')
@@ -487,7 +487,7 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter, ship_list_
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
         com_coordinates = [compCol, compRow]
-        if userupdate_board[compCol][compRow] == "= ":
+        if userupdate_board[compRow][compCol] == "= ":
             repeat = False
 
     print(letters[compCol], ",", numbers[compRow])
@@ -499,8 +499,17 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter, ship_list_
         print("Hit!")
         print_userboard(userupdate_board)
         win_counter += 1
+        print(win_counter)
         if win_counter == 4:
+            print("Both ships sunk!")
             return False, win_counter
+        elif win_counter >= 2:
+            if ship_list_name[ship_name1][0] in computer_guesses and ship_list_name[ship_name1][1] in computer_guesses:
+                print(f"{ship_name1} sunk!")
+            elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
+                print(f"{ship_name2} sunk!")
+            placeholder = input("Press enter for Player Turn: ")
+            return True, win_counter
         else:
             placeholder = input("Press enter for Player Turn: ")
             return True, win_counter
@@ -550,13 +559,14 @@ while play_again == True:
     ship_list_name[ship_name1] = [userWin_coordinates[0], userWin_coordinates[1]]
     ship_list_name[ship_name2] = [userWin_coordinates[2], userWin_coordinates[3]]
     print(ship_list_name)
+    print(ship_list_name[ship_name1])
     ###### repeats turn functions until one of them returns a win 
     user_repeat = True
     computer_repeat = True
     player_win_count = 0
     computer_win_count = 0
     while user_repeat == True and computer_repeat == True:
-        user_repeat, player_win_count = user_turn(comupdate_board, computer_win_coordinates, player_win_count)
+        user_repeat, player_win_count = user_turn(comupdate_board, computer_win_coordinates, player_win_count, ship_list_name)
         if user_repeat == False:
             print("You win!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")
@@ -564,7 +574,7 @@ while play_again == True:
             if tryAgain == "0":
                 play_again = False
             break
-        computer_repeat, computer_win_count = computer_turn(userupdate_board, userWin_coordinates, computer_win_count, ship_list_name)
+        computer_repeat, computer_win_count = computer_turn(userupdate_board, computer_win_count, ship_list_name)
         if computer_repeat == False:
             print("You lost.  Computer wins!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")

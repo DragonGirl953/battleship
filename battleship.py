@@ -449,7 +449,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                             print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
                             nextTurn = input("Press enter for the computer's turn: ")
                             break
-                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "-":
+                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)
                         os.system('cls')
@@ -540,12 +540,16 @@ while play_again == True:
     userupdate_board = user_board(grid_size)
 
     #### naming of players ship
-    ship_name = input("Name your battleship: ")
-    ship_list_name = ship_name
-    ship_list_name = []
+    ship_name1 = input("Name your first battleship: ")
+    ship_name2 = input("Name your second battleship: ")
+    # ship_list_name = ship_name1
+    ship_list_name = {}
 
     userWin_coordinates = user_battleship_location()
     computer_win_coordinates = computer_battleship_location()
+    ship_list_name[ship_name1] = [userWin_coordinates[0], userWin_coordinates[1]]
+    ship_list_name[ship_name2] = [userWin_coordinates[2], userWin_coordinates[3]]
+    print(ship_list_name)
     ###### repeats turn functions until one of them returns a win 
     user_repeat = True
     computer_repeat = True

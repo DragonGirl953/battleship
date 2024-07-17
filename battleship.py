@@ -400,7 +400,7 @@ def computer_battleship_location():
     return compWin_coordinates
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board, computer_win_coordinates, player_win_count):
+def user_turn(update_board, computer_win_coordinates, player_win_count, ship_list_name):
 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -446,7 +446,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         if player_win_count == 4:
                             return False, player_win_count
                         else:
-                            print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                            print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
                             nextTurn = input("Press enter for the computer's turn: ")
                             break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
@@ -456,7 +456,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
                         print("Miss")
                         print("Users Board: ")
                         print_computerboard(update_board)
-                        print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                        print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
                         nextTurn = input("Press enter for the computers turn: ")
                         break
                     
@@ -474,7 +474,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count):
     return True, player_win_count
 
 ##### computer turn function
-def computer_turn(userupdate_board, userWin_coordinates, win_counter):
+def computer_turn(userupdate_board, userWin_coordinates, win_counter, ship_list_name):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     os.system('cls')
@@ -486,14 +486,14 @@ def computer_turn(userupdate_board, userWin_coordinates, win_counter):
     while repeat == True:
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
-        com_coordinates = [compRow, compCol]
-        if userupdate_board[compRow][compCol] == "= ":
+        com_coordinates = [compCol, compRow]
+        if userupdate_board[compCol][compRow] == "= ":
             repeat = False
 
     print(letters[compCol], ",", numbers[compRow])
 
     #### when computer gets a hit
-    if com_coordinates in userWin_coordinates:
+    if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
         print("Hit!")
@@ -564,7 +564,7 @@ while play_again == True:
             if tryAgain == "0":
                 play_again = False
             break
-        computer_repeat, computer_win_count = computer_turn(userupdate_board, userWin_coordinates, computer_win_count)
+        computer_repeat, computer_win_count = computer_turn(userupdate_board, userWin_coordinates, computer_win_count, ship_list_name)
         if computer_repeat == False:
             print("You lost.  Computer wins!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")

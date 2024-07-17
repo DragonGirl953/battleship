@@ -447,19 +447,14 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
                         print("Hits: ", player_win_count)
                         if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
                             print("Computer ship1 has been sunken! ")
-                            nextTurn = input("Press enter for the computer's turn: ")
-                            break
                         elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
                             print("Computer ship2 has been sunken! ")
+                        if player_win_count == 4:
+                            return False, player_win_count
+                        else:
+                            print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
                             nextTurn = input("Press enter for the computer's turn: ")
                             break
-                        else:
-                            if player_win_count == 4:
-                                return False, player_win_count
-                            else:
-                                print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
-                                nextTurn = input("Press enter for the computer's turn: ")
-                                break
                     elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                         update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                         user_guesses.append(individual_coordinates)

@@ -436,52 +436,6 @@ def user_turn(update_board, computer_win_count, player_win_count, ship_list_name
 
         except:
             continue
-        
-    # print("Computer will now take a guess...")    
-
-    #     ##### computer randomizes coordinates till one is available 
-    # repeat = True
-    # while repeat == True:
-    #     compCol = random.randint(0, grid_size - 1)
-    #     compRow = random.randint(0, grid_size - 1)
-    #     com_coordinates = [compCol, compRow]
-    #     if userupdate_board[compRow][compCol] == "= ":
-    #         repeat = False
-
-    # print(letters[compCol], ",", numbers[compRow])
-
-    #     #### when computer gets a hit
-    # if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
-    #     userupdate_board[compRow][compCol] = "X"
-    #     computer_guesses.append(com_coordinates)
-    #     print("Hit!")
-    #     print_userboard(userupdate_board)
-    #     computer_win_counte += 1
-    #     print(computer_win_count)
-    #     if computer_win_count == 4:
-    #         print("Both ships sunk!")
-    #         return False, computer_win_count
-    #     elif computer_win_count >= 2:
-    #         if ship_list_name[ship_name1][0] in computer_guesses and ship_list_name[ship_name1][1] in computer_guesses:
-    #             print(f"{ship_name1} sunk!")
-    #         elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
-    #             print(f"{ship_name2} sunk!")
-    #         placeholder = input("Press enter for Player Turn: ")
-    #         return True, computer_win_count
-    #     else:
-    #         placeholder = input("Press enter for Player Turn: ")
-    #         return True, computer_win_count
-    #     #### when computer misses
-    # else:
-    #     userupdate_board[compRow][compCol] = "O"
-    #     computer_guesses.append(com_coordinates)
-    #     print("Miss!")
-    #     print_userboard(userupdate_board)
-    #     placeholder = input("Press enter for Player Turn: ")
-
-
-
-
     return True, player_win_count
 
 ##### computer turn function
@@ -543,17 +497,8 @@ while play_again == True:
     placeholder = input("Press enter to start the game: ")
     os.system('cls')
 
-    ##### repeats until user inputs valid response
-    repeat = True
-    while(repeat):
-        try:
-            grid_size = int(input("Please enter a number between 4-10 for your grid size: ")) 
-            if 3 < grid_size < 11:
-                repeat = False
-            else:
-                print("Enter a number between 1-10! ")
-        except:
-            print("Invalid Syntax! ")
+    grid_size = 10
+    
     ### call and store functions in variable       
     comupdate_board = computer_board(grid_size)
     userupdate_board = user_board(grid_size)

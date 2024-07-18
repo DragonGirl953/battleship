@@ -369,10 +369,6 @@ def computer_battleship_location():
 #### user puts in a location and it updates and prints the board
 def user_turn(update_board, computer_win_coordinates, player_win_count, ship_list_name):
 
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
   
     print("Players Board: ")
     print_board(comupdate_board)
@@ -386,18 +382,21 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
-            individual_coordinates[0] = individual_coordinates[0].lower()
+            individual_coordinates[0] = individual_coordinates[0].upper()
+            individual_coordinates[1] = int(individual_coordinates[1])
             if len(individual_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
                     continue
             else: 
-                if individual_coordinates[0] in letters_available and individual_coordinates[1] in numbers_available:
-                        individual_coordinates[0] = letters_available.index(individual_coordinates[0])
+                individual_coordinates[0] = ord(individual_coordinates[0]) - 65
+              
+                if individual_coordinates[0] < 10 and 0 < individual_coordinates[1] < 11:
+                       print()
                 else:
                         print("Enter a column and row in letter , number format! ")
             #### prints user hits or misses
             try:
-                individual_coordinates[1] = int(individual_coordinates[1])
+                
                 if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
                     print(f"Individual coordinate: {individual_coordinates}")
@@ -448,8 +447,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
 
 ##### computer turn function
 def computer_turn(userupdate_board, win_counter, ship_list_name):
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    
     os.system('cls')
 
     print("Computer will now take a guess...")
@@ -463,7 +461,7 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
         if userupdate_board[compRow][compCol] == "= ":
             repeat = False
 
-    print(letters[compCol], ",", numbers[compRow])
+    print(chr(compCol +65) , ",", compRow +1)
 
     #### when computer gets a hit
     if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:

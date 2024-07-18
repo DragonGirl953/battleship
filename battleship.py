@@ -6,6 +6,9 @@ user_guesses = []
 computer_guesses = []
 alphabet = ["     A ", "    B ", "    C ", "    D ", "    E ", "    F ", "    G ", "    H ", "    I ", "    J "]
 
+#### starts printing in white
+print("\033[1;37m", end="")
+
 def battle_ship_art():
 
     print("                  _           _   _   _           _     _ ")
@@ -30,8 +33,6 @@ def battle_ship_art():
     print(" \\_________________________________________________________________________|")        
 
 
-#### starts printing in white
-print("\033[1;37m", end="")
 
 #####computer board
 def computer_board (grid_size):
@@ -39,66 +40,28 @@ def computer_board (grid_size):
    
     return grid
 
-def print_computerboard(grid):
-    count = 0
-    t = 0
-    num = 1
-    #### starts printing in cyan
-    print("\033[0;36m", end="")
-
-    for i in range(grid_size):
-        print(alphabet[i], end=" ")
-    print()
-    for i in range(grid_size):
-        if count > 0:
-              print('\n')
-        count += 1
-        for j in range( grid_size ):
-            if t == 0 or t % grid_size == 0:
-                if grid[i][j] == "O":
-                    print(num, "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
-                elif grid[i][j] == "X":
-                    print(num, "|", "\033[0;31m", grid[i][j], "\033[0;36m", end=" |")
-                else:
-                    print(num, "|", "\033[0;36m", grid[i][j], end=" |")
-                t += 1
-                num += 1
-            else:
-                if grid[i][j] == "O":
-                    print( "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
-                elif grid[i][j] == "X":
-                    print( "|", "\033[0;31m", grid[i][j], "\033[0;36m", end=" |")
-                else:
-                    print( "|", "\033[0;36m", grid[i][j], end=" |")
-                t += 1
-    #### starts printing in white
-    print("\033[1;37m", end="")
-    print()
-
 ##### user board
 def user_board (grid_size):
     grid = [['= ' for col in range(grid_size)] for row in range(grid_size)]
     
     return grid
 
-def print_userboard(grid):
+#### prints the board
+def print_board(grid):
     count = 0
     t = 0
     num = 1
-    
     #### starts printing in cyan
     print("\033[0;36m", end="")
 
     for i in range(grid_size):
         print(alphabet[i], end=" ")
     print()
-
     for i in range(grid_size):
         if count > 0:
               print('\n')
         count += 1
         for j in range( grid_size ):
-           
             if t == 0 or t % grid_size == 0:
                 if grid[i][j] == "O":
                     print(num, "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
@@ -119,6 +82,8 @@ def print_userboard(grid):
     #### starts printing in white
     print("\033[1;37m", end="")
     print()
+
+
 
 #### designates a location on the grid whether random or manual with user input
 def battleship_location():
@@ -398,13 +363,9 @@ def battleship_location():
 #### user puts in a location and it updates and prints the board
 def user_turn(update_board, computer_win_coordinates, player_win_count, ship_list_name):
 
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
   
     print("Players Board: ")
-    print_computerboard(comupdate_board)
+    print_board(comupdate_board)
 
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     proper_coordinates = False
@@ -415,18 +376,21 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
-            individual_coordinates[0] = individual_coordinates[0].lower()
+            individual_coordinates[0] = individual_coordinates[0].upper()
+            individual_coordinates[1] = int(individual_coordinates[1])
             if len(individual_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
                     continue
             else: 
-                if individual_coordinates[0] in letters_available and individual_coordinates[1] in numbers_available:
-                        individual_coordinates[0] = letters_available.index(individual_coordinates[0])
+                individual_coordinates[0] = ord(individual_coordinates[0]) - 65
+              
+                if individual_coordinates[0] < 10 and 0 < individual_coordinates[1] < 11:
+                       print()
                 else:
                         print("Enter a column and row in letter , number format! ")
             #### prints user hits or misses
             try:
-                individual_coordinates[1] = int(individual_coordinates[1])
+                
                 if 0 < individual_coordinates[1] <= grid_size :
                     individual_coordinates[1] -= 1
                     print(f"Individual coordinate: {individual_coordinates}")
@@ -436,7 +400,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
                         os.system('cls')
                         print("Hit!")
                         print("Users Board: ")
-                        print_computerboard(comupdate_board)
+                        print_board(comupdate_board)
                         player_win_count += 1
                         print("Hits: ", player_win_count)
                         if player_win_count < 3:
@@ -457,7 +421,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
                         os.system('cls')
                         print("Miss")
                         print("Users Board: ")
-                        print_computerboard(update_board)
+                        print_board(update_board)
                         print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
                         nextTurn = input("Press enter for the computers turn: ")
                         break
@@ -477,8 +441,7 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
 
 ##### computer turn function
 def computer_turn(userupdate_board, win_counter, ship_list_name):
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    
     os.system('cls')
 
     print("Computer will now take a guess...")
@@ -492,14 +455,14 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
         if userupdate_board[compRow][compCol] == "= ":
             repeat = False
 
-    print(letters[compCol], ",", numbers[compRow])
+    print(chr(compCol +65) , ",", compRow +1)
 
     #### when computer gets a hit
     if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
         print("Hit!")
-        print_userboard(userupdate_board)
+        print_board(userupdate_board)
         win_counter += 1
         print(win_counter)
         if win_counter == 4:
@@ -520,7 +483,7 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print("Miss!")
-        print_userboard(userupdate_board)
+        print_board(userupdate_board)
         placeholder = input("Press enter for Player Turn: ")
         return True, win_counter
     

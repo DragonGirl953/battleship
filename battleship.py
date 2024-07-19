@@ -306,8 +306,7 @@ def battleship_location():
 
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board, computer_win_count, player_win_count, ship_list_name):
-
+def turns(update_board, computer_win_count, player_win_count, ship_list_name):
   
     print("Players Board: ")
     print_board(comupdate_board)
@@ -333,61 +332,55 @@ def user_turn(update_board, computer_win_count, player_win_count, ship_list_name
                        print()
                 else:
                         print("Enter a column and row in letter , number format! ")
+                        continue
             #### prints user hits or misses
             try:
-                if 0 < individual_coordinates[1] <= grid_size :
-                    individual_coordinates[1] -= 1
-                    print(f"Individual coordinate: {individual_coordinates}")
-                    if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
-                        comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
-                        user_guesses.append(individual_coordinates)
-                        os.system('cls')
-                        print("Hit!")
-                        print("Users Board: ")
-                        print_board(comupdate_board)
-                        player_win_count += 1
-                        print("Hits: ", player_win_count)
-                        if player_win_count < 3:
-                            if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
-                                print("Computer ship1 has been sunken! ")
-                            elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
-                                print("Computer ship2 has been sunken! ")
-                        if player_win_count == 4:
-                            print("Both ships have been sunken! ")
-                            return False, player_win_count
-                        else:
-                            print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
-                            nextTurn = input("Press enter for the computer's turn: ")
-                            break
-                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
-                        update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                        user_guesses.append(individual_coordinates)
-                        os.system('cls')
-                        print("Miss")
-                        print("Users Board: ")
-                        print_board(update_board)
-                        print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
-                        nextTurn = input("Press enter for the computers turn: ")
-                        break
-                    
+                individual_coordinates[1] -= 1
+                print(f"Individual coordinate: {individual_coordinates}")
+                if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                    user_guesses.append(individual_coordinates)
+                    os.system('cls')
+                    print("Hit!")
+                    print("Users Board: ")
+                    print_board(comupdate_board)
+                    player_win_count += 1
+                    print("Hits: ", player_win_count)
+                    if player_win_count < 3:
+                        if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
+                            print("Computer ship1 has been sunken! ")
+                        elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
+                            print("Computer ship2 has been sunken! ")
+                    if player_win_count == 4:
+                        print("Both ships have been sunken! ")
+                        return False, player_win_count, computer_win_count
                     else:
-                        print("Already chosen input another coordinate! ")
-                    
+                        print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                        nextTurn = input("Press enter for the computer's turn: ")
+                        break
+                elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                    user_guesses.append(individual_coordinates)
+                    print("Miss")
+                    os.system('cls')
+                    print("Users Board: ")
+                    print_board(update_board)
+                    print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
+                    nextTurn = input("Press enter for the computers turn: ")
+                    break
+                
                 else:
-                    print("Coordinates out of bounds.  Try again.")
+                    print("Already chosen input another coordinate! ")      
                 
             except:
                 print("Invalid coordinates. Try again.")       
 
         except:
+            print("Invalid coordinates.  Try again.")
             continue
     return True, player_win_count
 
-##### computer turn function
-def computer_turn(userupdate_board, win_counter, ship_list_name):
-    
     os.system('cls')
-
     print("Computer will now take a guess...")
 
     ##### computer randomizes coordinates till one is available 
@@ -417,23 +410,17 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
                 print(f"{ship_name1} sunk!")
             elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
                 print(f"{ship_name2} sunk!")
-            placeholder = input("Press enter for Player Turn: ")
-            return True, win_counter
-        else:
-            placeholder = input("Press enter for Player Turn: ")
-            return True, win_counter
+
     #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print("Miss!")
         print_board(userupdate_board)
-        placeholder = input("Press enter for Player Turn: ")
-        return True, win_counter
-    
-    
 
-
+    placeholder = input("Press enter for Player Turn: ")
+    return True, player_win_count, computer_win_count
+    
 
 ########################## main
 play_again = True
@@ -468,16 +455,15 @@ while play_again == True:
     player_win_count = 0
     computer_win_count = 0
     while play_repeat == True and computer_repeat == True:
-        play_repeat, player_win_count = user_turn(comupdate_board, compWin_coordinates, player_win_count, ship_list_name)
-        if play_repeat == False:
+        play_repeat, player_win_count, computer_win_count = turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
+        if player_win_count == 4:
             print("You win!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")
             os.system('cls')
             if tryAgain == "0":
                 play_again = False
             break
-        computer_repeat, computer_win_count = computer_turn(userupdate_board, computer_win_count, ship_list_name)
-        if computer_repeat == False:
+        if computer_win_count == 4:
             print("You lost.  Computer wins!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")
             os.system('cls')

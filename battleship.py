@@ -494,17 +494,8 @@ while play_again == True:
     placeholder = input("Press enter to start the game: ")
     os.system('cls')
 
-    ##### repeats until user inputs valid response
-    repeat = True
-    while(repeat):
-        try:
-            grid_size = int(input("Please enter a number between 4-10 for your grid size: ")) 
-            if 3 < grid_size < 11:
-                repeat = False
-            else:
-                print("Enter a number between 1-10! ")
-        except:
-            print("Invalid Syntax! ")
+    grid_size = 10
+    
     ### call and store functions in variable       
     comupdate_board = computer_board(grid_size)
     userupdate_board = user_board(grid_size)

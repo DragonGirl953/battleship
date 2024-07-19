@@ -2,9 +2,13 @@
 import random
 import os
 
+### initial list
 user_guesses = []
 computer_guesses = []
 alphabet = ["     A ", "    B ", "    C ", "    D ", "    E ", "    F ", "    G ", "    H ", "    I ", "    J "]
+
+#### starts printing in white
+print("\033[1;37m", end="")
 
 def battle_ship_art():
 
@@ -29,51 +33,11 @@ def battle_ship_art():
     print("|                                                                     BB-61/")       
     print(" \\_________________________________________________________________________|")        
 
-
-#### starts printing in white
-print("\033[1;37m", end="")
-
 #####computer board
 def computer_board (grid_size):
     grid = [['- ' for col in range(grid_size)] for row in range(grid_size)]
    
     return grid
-
-def print_computerboard(grid):
-    count = 0
-    t = 0
-    num = 1
-    #### starts printing in cyan
-    print("\033[0;36m", end="")
-
-    for i in range(grid_size):
-        print(alphabet[i], end=" ")
-    print()
-    for i in range(grid_size):
-        if count > 0:
-              print('\n')
-        count += 1
-        for j in range( grid_size ):
-            if t == 0 or t % grid_size == 0:
-                if grid[i][j] == "O":
-                    print(num, "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
-                elif grid[i][j] == "X":
-                    print(num, "|", "\033[0;31m", grid[i][j], "\033[0;36m", end=" |")
-                else:
-                    print(num, "|", "\033[0;36m", grid[i][j], end=" |")
-                t += 1
-                num += 1
-            else:
-                if grid[i][j] == "O":
-                    print( "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
-                elif grid[i][j] == "X":
-                    print( "|", "\033[0;31m", grid[i][j], "\033[0;36m", end=" |")
-                else:
-                    print( "|", "\033[0;36m", grid[i][j], end=" |")
-                t += 1
-    #### starts printing in white
-    print("\033[1;37m", end="")
-    print()
 
 ##### user board
 def user_board (grid_size):
@@ -81,24 +45,22 @@ def user_board (grid_size):
     
     return grid
 
-def print_userboard(grid):
+#### prints the board
+def print_board(grid):
     count = 0
     t = 0
     num = 1
-    
     #### starts printing in cyan
     print("\033[0;36m", end="")
 
     for i in range(grid_size):
         print(alphabet[i], end=" ")
     print()
-
     for i in range(grid_size):
         if count > 0:
               print('\n')
         count += 1
         for j in range( grid_size ):
-           
             if t == 0 or t % grid_size == 0:
                 if grid[i][j] == "O":
                     print(num, "|", "\033[32m", grid[i][j], "\033[0;36m", end=" |")
@@ -121,9 +83,9 @@ def print_userboard(grid):
     print()
 
 #### designates a location on the grid whether random or manual with user input
-def user_battleship_location():
+def battleship_location():
 
-    ship_count = 0
+    ship_counter = 0
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     letters_available = letters[ 0 : grid_size]
@@ -131,12 +93,14 @@ def user_battleship_location():
 
     placement = False
     userWin_coordinates = []
+    compWin_coordinates = []
     single_coordinates = []
     tempWin_coordinates = []
     while not placement:
         try:
             ship_place = int(input("Would you like to place ships randomly or manually? 1 for random, 2 for manually: "))
             if ship_place == 1:
+                os.system('cls')
                 print("You selected random.")
                 placement = True
             elif ship_place == 2:
@@ -148,7 +112,7 @@ def user_battleship_location():
             print("Invalid input.")
     # This runs if random (1) is chosen; It generates random coordinates for the ship, appends them to userWin_coordinates, and prints them out for the user to see.
     if ship_place == 1:
-        while ship_count < 2:
+        while ship_counter < 2:
             out_of_bounds= True
             while out_of_bounds:
                 direction_choice = random.randint(0,1)
@@ -156,59 +120,36 @@ def user_battleship_location():
                 row = random.randint(0,grid_size - 1)
                 single_coordinates.append(col)
                 single_coordinates.append(row)
-                if single_coordinates in userWin_coordinates:
-                    single_coordinates.clear()
-                    continue
-                out_of_bounds = False
-                #### Vertical expansion of ship by one coordinate
-                if direction_choice == 0:
-                    if col+1 > grid_size - 1:
-                        single_coordinates.clear()
-                        continue
-                    else:
+                if single_coordinates not in userWin_coordinates:
+                    #### Vertical expansion of ship by one coordinate
+                    if direction_choice == 0 and col + 1 <= grid_size - 1:
                         tempWin_coordinates.append(single_coordinates.copy())
-                        single_coordinates.clear()
-                        single_coordinates.append(col+1)
-                        single_coordinates.append(row)
-                        if single_coordinates in userWin_coordinates:
-                            tempWin_coordinates.clear()
-                            single_coordinates.clear()
-                            continue
-                        else:
-                            userWin_coordinates.append(tempWin_coordinates[0].copy())
+                        single_coordinates[0] = col + 1
+                        if single_coordinates not in userWin_coordinates:
+                            userWin_coordinates.append(tempWin_coordinates.copy())
                             userWin_coordinates.append(single_coordinates.copy())
+                            ship_counter += 1
                             single_coordinates.clear()
                             tempWin_coordinates.clear()
-                            out_of_bounds = False
-                #### Horizontal expansion of code
-                elif direction_choice == 1:
-                    if row+1 > grid_size - 1:
-                        single_coordinates.clear()
-                        continue
-                    else:
+                            out_of_bounds = False 
+                    #### Horizontal expansion of code
+                    if direction_choice == 1 and row + 1 <= grid_size - 1:
                         tempWin_coordinates.append(single_coordinates.copy())
-                        single_coordinates.clear()
-                        single_coordinates.append(col)
-                        single_coordinates.append(row+1)
-                        if single_coordinates in userWin_coordinates:
-                            tempWin_coordinates.clear()
-                            single_coordinates.clear()
-                            continue
-                        else:
-                            userWin_coordinates.append(tempWin_coordinates[0].copy())
+                        single_coordinates[1] = row + 1
+                        if single_coordinates not in userWin_coordinates:
+                            userWin_coordinates.append(tempWin_coordinates.copy())
                             userWin_coordinates.append(single_coordinates.copy())
+                            ship_counter += 1
                             single_coordinates.clear()
-                            tempWin_coordinates.clear()  
-                            out_of_bounds = False
-                ship_count += 1
-
+                            tempWin_coordinates.clear()
+                            out_of_bounds = False 
+                single_coordinates.clear()
     # This runs if manual (2) is chosem; it prompts the user to enter coordinates in a number, letter format.
     elif ship_place == 2:
-        
-        while ship_count < 2:
+        while ship_counter < 2:
             valid_coordinates = False
             while valid_coordinates == False:
-                # userWin_coordinates.clear()
+                
                 manual = input("Choose a location for the ship (Enter the coordinates in letter, number format eg. A,1): ")
                 # Splits the user-entered coordinates and turns them into coordinates python can understand.  If it can't, makes the user re-enter the coordinates.
                 try:
@@ -223,7 +164,6 @@ def user_battleship_location():
                             valid_coordinates = True
                         else:
                             print("Enter a column and row in letter , number format! ")
-                        
                     col = single_coordinates[0]
                     try:
                         single_coordinates[1] = int(single_coordinates[1])
@@ -239,9 +179,7 @@ def user_battleship_location():
                     except:
                         print("Invalid coordinates. Try again.")
                         continue
-
                     #####
-                    
                     try:
                         direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
                         if direction == 1:
@@ -264,7 +202,7 @@ def user_battleship_location():
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
-                                        ship_count += 1
+                                        ship_counter += 1
                                     elif up_or_down == 2:
                                         single_coordinates.append(col)
                                         single_coordinates.append(row+1)
@@ -277,7 +215,7 @@ def user_battleship_location():
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()  
                                         valid_coordinates = True
-                                        ship_count += 1
+                                        ship_counter += 1
                                     else:
                                         continue
                                 except:
@@ -302,8 +240,7 @@ def user_battleship_location():
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
-                                        
-                                        ship_count += 1
+                                        ship_counter += 1
                                     elif left_or_right == 2:
                                         single_coordinates.append(col+1)
                                         single_coordinates.append(row)
@@ -316,8 +253,7 @@ def user_battleship_location():
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
-                                        
-                                        ship_count += 1
+                                        ship_counter += 1
                                     else:
                                         continue
                                 except:
@@ -325,92 +261,55 @@ def user_battleship_location():
                     except:
                         print("Invalid input.")
                         continue
-                    
-
                 except:
                     continue 
-    print(ship_name1, "is at:", userWin_coordinates[0], userWin_coordinates[1])
-    print(ship_name2, "is at:", userWin_coordinates[2], userWin_coordinates[3])
-    return userWin_coordinates
-
-# Randomly generates coordinates for the computer and prints them.
-def computer_battleship_location():
-    tempWin_coordinates = []
-    compWin_coordinates = []
-    single_coordinates = []
+    # Randomly generates coordinates for the computer and prints them.
     ship_counter = 0
     while ship_counter < 2:
-        out_of_bounds= True
+        out_of_bounds = True
         while out_of_bounds:
             direction_choice = random.randint(0,1)
             col = random.randint(0,grid_size - 1)
             row = random.randint(0,grid_size - 1)
             single_coordinates.append(col)
             single_coordinates.append(row)
-            if single_coordinates in compWin_coordinates:
-                single_coordinates.clear()
-                continue
-            out_of_bounds = False
-
-            if direction_choice == 0:
-                if col+1 > grid_size - 1:
-                    single_coordinates.clear()
-                    continue
-                else:
+            if single_coordinates not in compWin_coordinates:
+                #### Vertical expansion of ship by one coordinate
+                if direction_choice == 0 and col + 1 <= grid_size - 1:
                     tempWin_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()
-                    single_coordinates.append(col+1)
-                    single_coordinates.append(row)
-                    if single_coordinates in compWin_coordinates:
-                        single_coordinates.clear()
-                        tempWin_coordinates.clear()
-                        continue
-                    else:
-                        compWin_coordinates.append(tempWin_coordinates[0].copy())
+                    single_coordinates[0] = col + 1
+                    if single_coordinates not in compWin_coordinates:
+                        compWin_coordinates.append(tempWin_coordinates.copy())
                         compWin_coordinates.append(single_coordinates.copy())
-                        single_coordinates.clear()
-                        tempWin_coordinates.clear()
                         ship_counter += 1
-                        out_of_bounds = False
-
-                
-            elif direction_choice == 1:
-                if row+1 > grid_size - 1:
-                    single_coordinates.clear()
-                    
-                    continue
-                else:
+                        single_coordinates.clear()
+                        tempWin_coordinates.clear()
+                        out_of_bounds = False 
+                #### Horizontal expansion of code
+                if direction_choice == 1 and row + 1 <= grid_size - 1:
                     tempWin_coordinates.append(single_coordinates.copy())
-                    single_coordinates.clear()
-                    single_coordinates.append(col)
-                    single_coordinates.append(row+1)                    
-                    if single_coordinates in compWin_coordinates:
-                        
-                        single_coordinates.clear()
-                        tempWin_coordinates.clear()
-                        continue
-                    else:
-                        compWin_coordinates.append(tempWin_coordinates[0].copy())
+                    single_coordinates[1] = row + 1
+                    if single_coordinates not in compWin_coordinates:
+                        compWin_coordinates.append(tempWin_coordinates.copy())
                         compWin_coordinates.append(single_coordinates.copy())
-                        tempWin_coordinates.clear()
+                        ship_counter += 1
                         single_coordinates.clear()
-                        ship_counter += 1  
-                        out_of_bounds = False
-        
+                        tempWin_coordinates.clear()
+                        out_of_bounds = False 
+                single_coordinates.clear()
+
+    print(ship_name1, "is at:", userWin_coordinates[0], userWin_coordinates[1])
+    print(ship_name2, "is at:", userWin_coordinates[2], userWin_coordinates[3])
     print("Computer ship1 is at:", compWin_coordinates[0], compWin_coordinates[1])
     print("Computer ship2 is at:", compWin_coordinates[2], compWin_coordinates[3])
-    return compWin_coordinates
+    return userWin_coordinates, compWin_coordinates
+
 
 #### user puts in a location and it updates and prints the board
-def user_turn(update_board, computer_win_coordinates, player_win_count, ship_list_name):
-
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
+def turns(update_board, computer_win_count, player_win_count, ship_list_name):
   
     print("Players Board: ")
-    print_computerboard(comupdate_board)
+    print_board(comupdate_board)
 
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     proper_coordinates = False
@@ -421,72 +320,67 @@ def user_turn(update_board, computer_win_coordinates, player_win_count, ship_lis
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
-            individual_coordinates[0] = individual_coordinates[0].lower()
+            individual_coordinates[0] = individual_coordinates[0].upper()
+            individual_coordinates[1] = int(individual_coordinates[1])
             if len(individual_coordinates) == 1:
                     print("Please enter a column and row in letter, number format (A,1): ")
                     continue
             else: 
-                if individual_coordinates[0] in letters_available and individual_coordinates[1] in numbers_available:
-                        individual_coordinates[0] = letters_available.index(individual_coordinates[0])
+                individual_coordinates[0] = ord(individual_coordinates[0]) - 65
+              
+                if individual_coordinates[0] < 10 and 0 < individual_coordinates[1] < 11:
+                       print()
                 else:
                         print("Enter a column and row in letter , number format! ")
+                        continue
             #### prints user hits or misses
             try:
-                individual_coordinates[1] = int(individual_coordinates[1])
-                if 0 < individual_coordinates[1] <= grid_size :
-                    individual_coordinates[1] -= 1
-                    print(f"Individual coordinate: {individual_coordinates}")
-                    if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
-                        comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
-                        user_guesses.append(individual_coordinates)
-                        os.system('cls')
-                        print("Hit!")
-                        print("Users Board: ")
-                        print_computerboard(comupdate_board)
-                        player_win_count += 1
-                        print("Hits: ", player_win_count)
-                        if player_win_count < 3:
-                            if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
-                                print("Computer ship1 has been sunken! ")
-                            elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
-                                print("Computer ship2 has been sunken! ")
-                        if player_win_count == 4:
-                            print("Both ships have been sunken! ")
-                            return False, player_win_count
-                        else:
-                            print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
-                            nextTurn = input("Press enter for the computer's turn: ")
-                            break
-                    elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
-                        update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                        user_guesses.append(individual_coordinates)
-                        os.system('cls')
-                        print("Miss")
-                        print("Users Board: ")
-                        print_computerboard(update_board)
-                        print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
-                        nextTurn = input("Press enter for the computers turn: ")
-                        break
-                    
+                individual_coordinates[1] -= 1
+                print(f"Individual coordinate: {individual_coordinates}")
+                if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
+                    user_guesses.append(individual_coordinates)
+                    os.system('cls')
+                    print("Hit!")
+                    print("Users Board: ")
+                    print_board(comupdate_board)
+                    player_win_count += 1
+                    print("Hits: ", player_win_count)
+                    if player_win_count < 3:
+                        if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
+                            print("Computer ship1 has been sunken! ")
+                        elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
+                            print("Computer ship2 has been sunken! ")
+                    if player_win_count == 4:
+                        print("Both ships have been sunken! ")
+                        return False, player_win_count, computer_win_count
                     else:
-                        print("Already chosen input another coordinate! ")
-                    
+                        print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                        nextTurn = input("Press enter for the computer's turn: ")
+                        break
+                elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                    user_guesses.append(individual_coordinates)
+                    print("Miss")
+                    os.system('cls')
+                    print("Users Board: ")
+                    print_board(update_board)
+                    print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
+                    nextTurn = input("Press enter for the computers turn: ")
+                    break
+                
                 else:
-                    print("Coordinates out of bounds.  Try again.")
+                    print("Already chosen input another coordinate! ")      
                 
             except:
                 print("Invalid coordinates. Try again.")       
 
         except:
-            continue    
-    return True, player_win_count
+            print("Invalid coordinates.  Try again.")
+            continue
 
-##### computer turn function
-def computer_turn(userupdate_board, win_counter, ship_list_name):
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+
     os.system('cls')
-
     print("Computer will now take a guess...")
 
     ##### computer randomizes coordinates till one is available 
@@ -498,14 +392,14 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
         if userupdate_board[compRow][compCol] == "= ":
             repeat = False
 
-    print(letters[compCol], ",", numbers[compRow])
+    print(chr(compCol +65) , ",", compRow +1)
 
     #### when computer gets a hit
     if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
         userupdate_board[compRow][compCol] = "X"
         computer_guesses.append(com_coordinates)
         print("Hit!")
-        print_userboard(userupdate_board)
+        print_board(userupdate_board)
         win_counter += 1
         print(win_counter)
         if win_counter == 4:
@@ -516,23 +410,17 @@ def computer_turn(userupdate_board, win_counter, ship_list_name):
                 print(f"{ship_name1} sunk!")
             elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
                 print(f"{ship_name2} sunk!")
-            placeholder = input("Press enter for Player Turn: ")
-            return True, win_counter
-        else:
-            placeholder = input("Press enter for Player Turn: ")
-            return True, win_counter
+
     #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print("Miss!")
-        print_userboard(userupdate_board)
-        placeholder = input("Press enter for Player Turn: ")
-        return True, win_counter
-    
-    
+        print_board(userupdate_board)
 
-
+    placeholder = input("Press enter for Player Turn: ")
+    return True, player_win_count, computer_win_count
+    
 
 ########################## main
 play_again = True
@@ -542,6 +430,9 @@ while play_again == True:
     os.system('cls')
 
     grid_size = 10      
+    grid_size = 10
+
+    ### call and store functions in variable       
     comupdate_board = computer_board(grid_size)
     userupdate_board = user_board(grid_size)
 
@@ -552,8 +443,7 @@ while play_again == True:
     ship_list_name = {}
     computerShips = {}
 
-    userWin_coordinates = user_battleship_location()
-    compWin_coordinates = computer_battleship_location()
+    userWin_coordinates, compWin_coordinates = battleship_location()
     ship_list_name[ship_name1] = [userWin_coordinates[0], userWin_coordinates[1]]
     ship_list_name[ship_name2] = [userWin_coordinates[2], userWin_coordinates[3]]
     computerShips["ship1"] = [compWin_coordinates[0], compWin_coordinates[1]]
@@ -561,21 +451,20 @@ while play_again == True:
 
     
     ###### repeats turn functions until one of them returns a win 
-    user_repeat = True
+    play_repeat = True
     computer_repeat = True
     player_win_count = 0
     computer_win_count = 0
-    while user_repeat == True and computer_repeat == True:
-        user_repeat, player_win_count = user_turn(comupdate_board, compWin_coordinates, player_win_count, ship_list_name)
-        if user_repeat == False:
+    while play_repeat == True and computer_repeat == True:
+        play_repeat, player_win_count, computer_win_count = turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
+        if player_win_count == 4:
             print("You win!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")
             os.system('cls')
             if tryAgain == "0":
                 play_again = False
             break
-        computer_repeat, computer_win_count = computer_turn(userupdate_board, computer_win_count, ship_list_name)
-        if computer_repeat == False:
+        if computer_win_count == 4:
             print("You lost.  Computer wins!")
             tryAgain = input("Press 0 to quit or anything else to play again: ")
             os.system('cls')

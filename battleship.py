@@ -435,7 +435,6 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
             continue
 
     os.system('cls')
-
     print("Computer will now take a guess...")
 
     ##### computer randomizes coordinates till one is available 
@@ -465,17 +464,15 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
                 print(f"{ship_name1} sunk!")
             elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
                 print(f"{ship_name2} sunk!")
-        placeholder = input("Press enter for Player Turn: ")
-        return True, player_win_count, computer_win_count
+
     #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
         computer_guesses.append(com_coordinates)
         print("Miss!")
         print_board(userupdate_board)
-        placeholder = input("Press enter for Player Turn: ")
 
-
+    placeholder = input("Press enter for Player Turn: ")
     return True, player_win_count, computer_win_count
     
 

@@ -378,7 +378,7 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
         except:
             print("Invalid coordinates.  Try again.")
             continue
-    return True, player_win_count
+
 
     os.system('cls')
     print("Computer will now take a guess...")

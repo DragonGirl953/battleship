@@ -35,15 +35,9 @@ def battle_ship_art():
 
 
 #####computer board
-def computer_board (grid_size):
+def create_board (grid_size):
     grid = [['- ' for col in range(grid_size)] for row in range(grid_size)]
    
-    return grid
-
-##### user board
-def user_board (grid_size):
-    grid = [['= ' for col in range(grid_size)] for row in range(grid_size)]
-    
     return grid
 
 #### prints the board
@@ -443,7 +437,7 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
         compCol = random.randint(0, grid_size - 1)
         compRow = random.randint(0, grid_size - 1)
         com_coordinates = [compCol, compRow]
-        if userupdate_board[compRow][compCol] == "= ":
+        if userupdate_board[compRow][compCol] == "- ":
             repeat = False
 
     print(chr(compCol +65) , ",", compRow +1)
@@ -486,8 +480,8 @@ while play_again == True:
     grid_size = 10
     
     ### call and store functions in variable       
-    comupdate_board = computer_board(grid_size)
-    userupdate_board = user_board(grid_size)
+    comupdate_board = create_board(grid_size)
+    userupdate_board = create_board(grid_size)
 
     #### naming of players ship
     ship_name1 = input("Name your first battleship: ")

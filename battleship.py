@@ -174,9 +174,10 @@ def battleship_location():
                     except:
                         print("Invalid coordinates. Try again.")
                         continue
-                    #####
+                    # Prompts the user to choose the direction for the ship to be placed
                     try:
                         direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
+                        # For a vertically placed ship
                         if direction == 1:
                             if row-1 < 0 or row+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
@@ -217,6 +218,7 @@ def battleship_location():
                                         continue
                                 except:
                                     continue
+                        # For a horizontally placed ship
                         elif direction == 2:
                             if col-1 < 0 or col+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
@@ -306,7 +308,7 @@ def battleship_location():
 
 
 #### user puts in a location and it updates and prints the board
-def turns(update_board, computer_win_count, player_win_count, ship_list_name):
+def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name):
   
     print("Players Board: ")
     print_board(comupdate_board)
@@ -358,7 +360,7 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
                         print("Both ships have been sunken! ")
                         return False, player_win_count, computer_win_count
                     else:
-                        print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
+                        print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships have {4 - computer_win_count} spaces remaining.") 
                         nextTurn = input("Press enter for the computer's turn: ")
                         break
                 elif comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
@@ -368,7 +370,7 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
                     os.system('cls')
                     print("Users Board: ")
                     print_board(comupdate_board)
-                    print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships are still alive.") 
+                    print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships have {4 - computer_win_count} spaces remaining.") 
                     nextTurn = input("Press enter for the computers turn: ")
                     break
                 

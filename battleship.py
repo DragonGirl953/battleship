@@ -98,6 +98,7 @@ def battleship_location():
                 print("You selected random.")
                 placement = True
             elif ship_place == 2:
+                os.system('cls')
                 print("You selected manually.")
                 placement = True
             else:
@@ -143,7 +144,7 @@ def battleship_location():
         while ship_counter < 2:
             valid_coordinates = False
             while valid_coordinates == False:
-                
+                print_board(comupdate_board)
                 manual = input("Choose a location for the ship (Enter the coordinates in letter, number format eg. A,1): ")
                 # Splits the user-entered coordinates and turns them into coordinates python can understand.  If it can't, makes the user re-enter the coordinates.
                 try:
@@ -193,6 +194,7 @@ def battleship_location():
                                             continue
                                         userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        print(userWin_coordinates)
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
@@ -206,6 +208,7 @@ def battleship_location():
                                             continue
                                         userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        print(userWin_coordinates)
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()  
                                         valid_coordinates = True
@@ -231,6 +234,7 @@ def battleship_location():
                                             continue
                                         userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        print(userWin_coordinates)
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
@@ -244,6 +248,7 @@ def battleship_location():
                                             continue
                                         userWin_coordinates.append(tempWin_coordinates[0].copy())
                                         userWin_coordinates.append(single_coordinates.copy())
+                                        print(userWin_coordinates)
                                         tempWin_coordinates.clear()
                                         single_coordinates.clear()
                                         valid_coordinates = True
@@ -292,6 +297,7 @@ def battleship_location():
                         out_of_bounds = False 
                 single_coordinates.clear()
 
+    os.system('cls')
     print(ship_name1, "is at:", userWin_coordinates[0], userWin_coordinates[1])
     print(ship_name2, "is at:", userWin_coordinates[2], userWin_coordinates[3])
     print("Computer ship1 is at:", compWin_coordinates[0], compWin_coordinates[1])
@@ -309,6 +315,8 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
     proper_coordinates = False
     while proper_coordinates == False:
         print("Number of hits: ", player_win_count)
+        print("Computer ship1 is at:", compWin_coordinates[0], compWin_coordinates[1])
+        print("Computer ship2 is at:", compWin_coordinates[2], compWin_coordinates[3])
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
         
         try:
@@ -353,14 +361,14 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
                         print(f"Your ship is located at {userWin_coordinates}.  Your ship is still alive.") 
                         nextTurn = input("Press enter for the computer's turn: ")
                         break
-                elif update_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
-                    update_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
+                elif comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
+                    comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                     user_guesses.append(individual_coordinates)
                     print("Miss")
                     os.system('cls')
                     print("Users Board: ")
-                    print_board(update_board)
-                    print(f"Your ships are located at {ship_list_name[ship_name1]} and {ship_list_name[ship_name2]}.  Your ships are still alive.") 
+                    print_board(comupdate_board)
+                    print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships are still alive.") 
                     nextTurn = input("Press enter for the computers turn: ")
                     break
                 

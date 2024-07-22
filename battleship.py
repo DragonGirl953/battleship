@@ -120,7 +120,7 @@ def battleship_location():
                         tempWin_coordinates.append(single_coordinates.copy())
                         single_coordinates[0] = col + 1
                         if single_coordinates not in userWin_coordinates:
-                            userWin_coordinates.append(tempWin_coordinates.copy())
+                            userWin_coordinates.append(tempWin_coordinates[0].copy())
                             userWin_coordinates.append(single_coordinates.copy())
                             ship_counter += 1
                             single_coordinates.clear()
@@ -131,7 +131,7 @@ def battleship_location():
                         tempWin_coordinates.append(single_coordinates.copy())
                         single_coordinates[1] = row + 1
                         if single_coordinates not in userWin_coordinates:
-                            userWin_coordinates.append(tempWin_coordinates.copy())
+                            userWin_coordinates.append(tempWin_coordinates[0].copy())
                             userWin_coordinates.append(single_coordinates.copy())
                             ship_counter += 1
                             single_coordinates.clear()
@@ -273,7 +273,7 @@ def battleship_location():
                     tempWin_coordinates.append(single_coordinates.copy())
                     single_coordinates[0] = col + 1
                     if single_coordinates not in compWin_coordinates:
-                        compWin_coordinates.append(tempWin_coordinates.copy())
+                        compWin_coordinates.append(tempWin_coordinates[0].copy())
                         compWin_coordinates.append(single_coordinates.copy())
                         ship_counter += 1
                         single_coordinates.clear()
@@ -284,7 +284,7 @@ def battleship_location():
                     tempWin_coordinates.append(single_coordinates.copy())
                     single_coordinates[1] = row + 1
                     if single_coordinates not in compWin_coordinates:
-                        compWin_coordinates.append(tempWin_coordinates.copy())
+                        compWin_coordinates.append(tempWin_coordinates[0].copy())
                         compWin_coordinates.append(single_coordinates.copy())
                         ship_counter += 1
                         single_coordinates.clear()
@@ -331,6 +331,7 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
             try:
                 individual_coordinates[1] -= 1
                 print(f"Individual coordinate: {individual_coordinates}")
+                print(compWin_coordinates)
                 if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                     comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                     user_guesses.append(individual_coordinates)
@@ -394,12 +395,12 @@ def turns(update_board, computer_win_count, player_win_count, ship_list_name):
         computer_guesses.append(com_coordinates)
         print("Hit!")
         print_board(userupdate_board)
-        win_counter += 1
-        print(win_counter)
-        if win_counter == 4:
+        computer_win_count += 1
+        print(computer_win_count)
+        if computer_win_count == 4:
             print("Both ships sunk!")
-            return False, win_counter
-        elif win_counter >= 2:
+            return False, player_win_count, computer_win_count
+        elif computer_win_count >= 2:
             if ship_list_name[ship_name1][0] in computer_guesses and ship_list_name[ship_name1][1] in computer_guesses:
                 print(f"{ship_name1} sunk!")
             elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
@@ -423,8 +424,7 @@ while play_again == True:
     placeholder = input("Press enter to start the game: ")
     os.system('cls')
 
-    grid_size = 10      
-    grid_size = 10
+    grid_size = 10     
 
     ### call and store functions in variable       
     comupdate_board = create_board(grid_size)

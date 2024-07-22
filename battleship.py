@@ -177,7 +177,7 @@ def battleship_location():
                     # Prompts the user to choose the direction for the ship to be placed
                     try:
                         direction = int(input("Choose a direction for the ship (1 for vertical, 2 for horizontal): "))
-                        # For a vertically placed ship
+                        #### Expands the battle ship in a vertical direction depending on user input
                         if direction == 1:
                             if row-1 < 0 or row+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
@@ -218,7 +218,7 @@ def battleship_location():
                                         continue
                                 except:
                                     continue
-                        # For a horizontally placed ship
+                        #### Expands battleship horizontally left or right depending on battleship location
                         elif direction == 2:
                             if col-1 < 0 or col+1 > grid_size - 1:
                                 print("Coordinates out of bounds.  Try again.")
@@ -342,6 +342,7 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
                 individual_coordinates[1] -= 1
                 print(f"Individual coordinate: {individual_coordinates}")
                 print(compWin_coordinates)
+                #### if user guess is a hit
                 if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                     comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
                     user_guesses.append(individual_coordinates)
@@ -363,6 +364,7 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
                         print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships have {4 - computer_win_count} spaces remaining.") 
                         nextTurn = input("Press enter for the computer's turn: ")
                         break
+                #### if user guess is a miss
                 elif comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                     comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
                     user_guesses.append(individual_coordinates)

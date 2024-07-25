@@ -3,8 +3,6 @@ import random
 import os
 
 ### initial list
-user_guesses = []
-computer_guesses = []
 alphabet = ["     A ", "    B ", "    C ", "    D ", "    E ", "    F ", "    G ", "    H ", "    I ", "    J "]
 
 #### starts printing in white
@@ -345,17 +343,16 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
                 #### if user guess is a hit
                 if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                     comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
-                    user_guesses.append(individual_coordinates)
                     os.system('cls')
                     print("Hit!")
                     print("Users Board: ")
                     print_board(comupdate_board)
                     player_win_count += 1
                     print("Hits: ", player_win_count)
-                    if player_win_count < 3:
-                        if computerShips["ship1"][0] in user_guesses and computerShips["ship1"][1] in user_guesses:
+                    if player_win_count < 3:            
+                        if comupdate_board[computerShips["ship1"][0][1]][computerShips["ship1"][0][0]] == "X" and comupdate_board[computerShips["ship1"][1][1]][computerShips["ship1"][1][0]] == "X":
                             print("Computer ship1 has been sunken! ")
-                        elif computerShips["ship2"][0] in user_guesses and computerShips["ship2"][1] in user_guesses:
+                        elif comupdate_board[computerShips["ship2"][0][1]][computerShips["ship2"][0][0]] == "X" and comupdate_board[computerShips["ship2"][1][1]][computerShips["ship2"][1][0]] == "X":
                             print("Computer ship2 has been sunken! ")
                     if player_win_count == 4:
                         print("Both ships have been sunken! ")
@@ -367,7 +364,6 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
                 #### if user guess is a miss
                 elif comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                     comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                    user_guesses.append(individual_coordinates)
                     print("Miss")
                     os.system('cls')
                     print("Users Board: ")
@@ -404,7 +400,6 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
     #### when computer gets a hit
     if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
         userupdate_board[compRow][compCol] = "X"
-        computer_guesses.append(com_coordinates)
         print("Hit!")
         print_board(userupdate_board)
         computer_win_count += 1
@@ -413,15 +408,14 @@ def turns(comupdate_board, computer_win_count, player_win_count, ship_list_name)
             print("Both ships sunk!")
             return False, player_win_count, computer_win_count
         elif computer_win_count >= 2:
-            if ship_list_name[ship_name1][0] in computer_guesses and ship_list_name[ship_name1][1] in computer_guesses:
+            if userupdate_board[ship_list_name[ship_name1][0][1]][ship_list_name[ship_name1][0][0]] == "X" and userupdate_board[ship_list_name[ship_name1][1][1]][ship_list_name[ship_name1][1][0]] == "X":
                 print(f"{ship_name1} sunk!")
-            elif ship_list_name[ship_name2][0] in computer_guesses and ship_list_name[ship_name2][1] in computer_guesses:
+            elif userupdate_board[ship_list_name[ship_name2][0][1]][ship_list_name[ship_name2][0][0]] == "X" and userupdate_board[ship_list_name[ship_name2][1][1]][ship_list_name[ship_name2][1][0]] == "X":
                 print(f"{ship_name2} sunk!")
 
     #### when computer misses
     else:
         userupdate_board[compRow][compCol] = "O"
-        computer_guesses.append(com_coordinates)
         print("Miss!")
         print_board(userupdate_board)
 

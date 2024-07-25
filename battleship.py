@@ -315,11 +315,9 @@ def coordinates (individual_coordinates, com_coordinates):
     # This section of the function takes the user input of the coordinates and tries to separate it and turn it into an actual location on the board.
     proper_coordinates = False
     while proper_coordinates == False:
-        print("Number of hits: ", player_win_count)
         print("Computer ship1 is at:", compWin_coordinates[0], compWin_coordinates[1])
         print("Computer ship2 is at:", compWin_coordinates[2], compWin_coordinates[3])
         coordinates = input("Enter the coordinates for your guess (must be a letter, number format eg. A,1): ")
-        
         try:
             coordinates_no_blanks = coordinates.strip()
             individual_coordinates = coordinates_no_blanks.split(",")
@@ -341,12 +339,10 @@ def coordinates (individual_coordinates, com_coordinates):
         except:
             print("Invalid coordinates.  Try again.")
             continue  
-
         proper_coordinates = True
 
     os.system('cls')
     
-
     ##### computer randomizes coordinates till one is available 
     repeat = True
     while repeat == True:
@@ -392,26 +388,21 @@ while play_again == True:
     
     ###### repeats turn functions until one of them returns a win 
     play_repeat = True
-    computer_repeat = True
     player_win_count = 0
     computer_win_count = 0
     playloop = 0
-    while play_repeat == True and computer_repeat == True:
+    while play_repeat == True :
         
+        #### if user
         if playloop == 0 :
             os.system('cls')
             print("Players Board: ")
             print_board(comupdate_board)
             individual_coordinates, com_coordinates = coordinates(individual_coordinates, com_coordinates)
-            print("individ cords: ", individual_coordinates)
-            print("com cords: ", com_coordinates)
 
-            #### prints user hits or misses
-           
             #### if user guess is a hit
             if individual_coordinates in compWin_coordinates and comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                 comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "X"
-                # os.system('cls')
                 print("Hit!")
                 print("Users Board: ")
                 print_board(comupdate_board)
@@ -424,7 +415,11 @@ while play_again == True:
                         print("Computer ship2 has been sunken! ")
                 if player_win_count == 4:
                     print("Both ships have been sunken! ")
-                    quit()
+                    playAgain = input("Would you like to play again? Press 0 to quit or anything else to play again: ")
+                    if playAgain == "0":
+                        quit()
+                    else:
+                        play_repeat = False
                 else:
                     print(f"Your ships are located at {ship_list_name[ship_name1][0]} {ship_list_name[ship_name1][1]} and {ship_list_name[ship_name2][0]} {ship_list_name[ship_name2][1]}.  Your ships have {4 - computer_win_count} spaces remaining.") 
                     nextTurn = input("Press enter for the computer's turn: ")
@@ -433,7 +428,7 @@ while play_again == True:
             #### if user guess is a miss
             elif comupdate_board[individual_coordinates[1]][individual_coordinates[0]] == "- ":
                 comupdate_board[individual_coordinates[1]][individual_coordinates[0]] = "O"
-                print("Miss")
+                print("Miss!")
                 # os.system('cls')
                 print("Users Board: ")
                 print_board(comupdate_board)
@@ -444,16 +439,14 @@ while play_again == True:
             else:
                 print("Already chosen input another coordinate! ")      
            
-            
-        
-
+        #### if computer
         if playloop == 1 :
            os.system('cls')
            print("Computers guess... ")
 
            compCol = com_coordinates[0]
            compRow = com_coordinates[1]
-           print("com coordinate: ", chr(compCol +65) , ",", compRow + 1)
+           print(chr(compCol +65) , ",", compRow + 1)
 
             #### when computer gets a hit
            if com_coordinates in ship_list_name[ship_name1] or com_coordinates in ship_list_name[ship_name2]:
@@ -464,11 +457,15 @@ while play_again == True:
                 print(computer_win_count)
                 if computer_win_count == 4:
                     print("Both ships sunk!")
-                    quit()
+                    playAgain = input("Would you like to play again? Press 0 to quit or anything else to play again: ")
+                    if playAgain == "0":
+                        quit()
+                    else:
+                        play_repeat = False               
                 elif computer_win_count >= 2:
-                     if userupdate_board[ship_list_name[ship_name1][0][1]][ship_list_name[ship_name1][0][0]] == "X" and userupdate_board[ship_list_name[ship_name1][1][1]][ship_list_name[ship_name1][1][0]] == "X":
+                    if userupdate_board[ship_list_name[ship_name1][0][1]][ship_list_name[ship_name1][0][0]] == "X" and userupdate_board[ship_list_name[ship_name1][1][1]][ship_list_name[ship_name1][1][0]] == "X":
                         print(f"{ship_name1} sunk!")
-                     elif userupdate_board[ship_list_name[ship_name2][0][1]][ship_list_name[ship_name2][0][0]] == "X" and userupdate_board[ship_list_name[ship_name2][1][1]][ship_list_name[ship_name2][1][0]] == "X":
+                    elif userupdate_board[ship_list_name[ship_name2][0][1]][ship_list_name[ship_name2][0][0]] == "X" and userupdate_board[ship_list_name[ship_name2][1][1]][ship_list_name[ship_name2][1][0]] == "X":
                         print(f"{ship_name2} sunk!")
 
             #### when computer misses
@@ -481,4 +478,3 @@ while play_again == True:
            placeholder = input("Press enter for Player Turn: ")
 
         os.system('cls')
-        print("ergefwerergwg")

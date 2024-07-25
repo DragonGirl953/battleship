@@ -78,11 +78,15 @@ def print_board(grid):
 def battleship_location():
 
     ship_counter = 0
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-    letters_available = letters[ 0 : grid_size]
-    numbers_available = numbers[ 0 : grid_size]
 
+    letters_available = []
+    numbers_available = []
+    ascii_number = 87
+    for i in range(grid_size):
+        letters_available.append(chr(grid_size + ascii_number))
+        numbers_available.append(str(i + 1))
+        ascii_number += 1
+    
     placement = False
     userWin_coordinates = []
     compWin_coordinates = []
